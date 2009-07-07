@@ -249,7 +249,7 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
 
     protected \$_dbTable;
 
-    public function setDbTable($\dbTable)
+    public function setDbTable(\$dbTable)
     {
         if (is_string(\$dbTable)) {
             \$dbTable = new \$dbTable();
