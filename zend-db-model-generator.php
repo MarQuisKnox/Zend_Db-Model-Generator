@@ -288,7 +288,7 @@ $var1
     }
 	
 
-    public function find(\$id, Default_Model_XpoCache \$cls) {
+    public function find(\$id, Default_Model_{$this->_className} \$cls) {
 
         \$result = \$this->getDbTable()->find(\$id);
         if (0 == count(\$result)) {
