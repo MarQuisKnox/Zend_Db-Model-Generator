@@ -238,7 +238,7 @@ KFIR;
 
 	$var2=join("\n",$var2);
 	
-	$require=$this->_addRequire ? "require_once(\"DbTable/{$this->_className}.php\");" : "";
+	$require=$this->_addRequire ? 'require_once("DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php");' : "";
 
 		$dbMapperFile=<<<KFIR
 <?php
@@ -324,15 +324,15 @@ return $dbMapperFile;
 
 
 	function writeItAll() {
-	if (!is_dir("{$this->_tbname}/DbTable"))
-		if (!@mkdir ("{$this->_tbname}/DbTable",0755,true))
+	if (!is_dir($this->_tbname.DIRECTORY_SEPARATOR.'DbTable'))
+		if (!@mkdir ($this->_tbname.DIRECTORY_SEPARATOR.'DbTable',0755,true))
 			die("ERROR: could not create directory {$this->_tbname}.");
 	
-	$modelFile="{$this->_tbname}/{$this->_className}.php";
+	$modelFile=$this->_tbname.DIRECTORY_SEPARATOR.$this->_className.'.php';
 	$modelData=$this->getModelFile();
-	$mapperFile="{$this->_tbname}/{$this->_className}Mapper.php";
+	$mapperFile=$this->_tbname.DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
 	$mapperData=$this->getMapperFile();
-	$dbTableFile="{$this->_tbname}/DbTable/{$this->_className}.php";
+	$dbTableFile=$this->_tbname.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
 	$dbTableData=$this->getDbTableFile();
 	
 	if (!file_put_contents($modelFile,$modelData))
