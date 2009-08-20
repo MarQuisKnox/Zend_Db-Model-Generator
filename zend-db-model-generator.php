@@ -1,6 +1,6 @@
 <?php
 
-$version="0.1";
+$version="0.1.1b";
 $author="Kfir Ozer <kfirufk@gmail.com>";
 
 class MakeDbTable {
@@ -58,9 +58,9 @@ class MakeDbTable {
 		$res=$qry->fetchAll();
 
 		foreach ($res as $row) {
-			if ($row['Key'] !== 'PRI')
-				$columns[]=$row['Field'];
-			else
+		
+			$columns[]=$row['Field'];
+			if ($row['Key'] == 'PRI')
 				$primaryKey[]=$row['Field'];
 		}
 
