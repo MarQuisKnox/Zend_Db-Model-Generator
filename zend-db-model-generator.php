@@ -147,7 +147,7 @@ $gettersNSetters
     		{                         
         		\$method = "set\$name";
         		if (("mapper" == \$name) || !method_exists(\$this, \$method)) {
-            			throw new Exception("name:\$name value:\$value - Invalid \$this->_tbname property");
+            			throw new Exception("name:\$name value:\$value - Invalid $this->_tbname property");
         		}                              
         		\$this->\$method(\$value);  
     		}                                
@@ -156,7 +156,7 @@ $gettersNSetters
 	{                                   
         	\$method = "get\$name";                    
         	if (("mapper" == \$name) || !method_exists(\$this, \$method)) {
-            		throw new Exception("name:\$name  - Invalid \$this->_tbname property");
+            		throw new Exception("name:\$name  - Invalid $this->_tbname property");
         	}            
         	return \$this->\$method();
 	}
