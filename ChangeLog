@@ -1,0 +1,36 @@
+------------------------------------------------------------------------
+r10 | kfirufk | 2009-08-23 01:53:29 +0300 (Sun, 23 Aug 2009) | 1 line
+
+changed version to 0.1.2
+------------------------------------------------------------------------
+r9 | kfirufk | 2009-08-23 01:46:35 +0300 (Sun, 23 Aug 2009) | 4 lines
+
+1) Fixed a bug where the primary key was being generated twice in the
+Default_{table}_Model class.
+2) Add magic method support to do ->findBy<value>(<value>); 
+fix by Charles Spraggs
+------------------------------------------------------------------------
+r8 | kfirufk | 2009-08-22 20:46:19 +0300 (Sat, 22 Aug 2009) | 1 line
+
+fixed error message on invalid property
+------------------------------------------------------------------------
+r7 | kfirufk | 2009-08-20 17:41:13 +0300 (Thu, 20 Aug 2009) | 1 line
+
+add get/set functions to primary keys
+------------------------------------------------------------------------
+r6 | kfirufk | 2009-07-25 20:03:58 +0300 (Sat, 25 Jul 2009) | 1 line
+
+replaced '/' with DIRECTORY_SEPARATOR
+------------------------------------------------------------------------
+r5 | kfirufk | 2009-07-25 19:39:40 +0300 (Sat, 25 Jul 2009) | 1 line
+
+fixed find() decleration in the mapper template
+------------------------------------------------------------------------
+r3 | kfirufk | 2009-07-07 11:53:14 +0300 (Tue, 07 Jul 2009) | 1 line
+
+Mapper template fix
+------------------------------------------------------------------------
+r2 | kfirufk | 2009-07-02 14:45:08 +0300 (Thu, 02 Jul 2009) | 1 line
+
+version 0.1
+------------------------------------------------------------------------
