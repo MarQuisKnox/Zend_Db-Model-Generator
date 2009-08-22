@@ -14,11 +14,11 @@ class MakeDbTable {
 	protected $_primaryKey;
 	protected $_namespace;
 
-	protected $_dbhost='127.0.0.1';  // database host
+	protected $_dbhost='localhost';  // database host
 	protected $_dbtype='mysql';    // database type
 	protected $_dbuser='root';       // database user
 	protected $_dbpassword=''; // database password
-	protected $_addRequire=true;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
+	protected $_addRequire=false;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
 
 
 	private function _getCapital($str) {
@@ -113,16 +113,12 @@ KFIR;
 			$gettersNSetters.=<<<KFIR
 
 	function set{$column}(\$data) {
-			
 		\$this->_$column=\$data;
 		return \$this;
-			
 	}
 
 	function get{$column}() {
-		
 		return \$this->_$column;
-		
 	}
 
 KFIR;
@@ -133,15 +129,35 @@ KFIR;
 
 		$dbMainFile=<<<KFIR
 <?php
-
 $require
-
 class {$this->_namespace}_Model_{$this->_className} {
-
-	protected \$_{$this->_capitalPrimaryKey};
 $classVariables
 	protected \$_mapper;
 $gettersNSetters
+
+	function __call(\$method, array \$args)
+	{
+		\$matches = array();
+		
+		/**
+		 * Recognize methods for Belongs-To cases:
+		 * findBy<field>()
+		 * Use the non-greedy pattern repeat modifier e.g. \w+?
+		 */
+		if (preg_match('/^findBy(\w+)?$/', \$method, \$matches)) {
+			\$methods = get_class_methods(\$this);
+			\$check = "set{\$matches[1]}";
+			
+			if (!in_array(\$check, \$methods)) {
+				throw new Exception("Invalid field {\$matches[1]} requested for table");
+			}
+			
+			\$this->getMapper()->findByField(\$matches[1], \$args[0], \$this);
+			return \$this;
+		}
+		
+		throw new Exception("Unrecognized method '\$method()'");
+	}
 
 	public function __set(\$name, \$value)
     		{                         
@@ -249,6 +265,19 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
 
     protected \$_dbTable;
 
+	public function findByField(\$field, \$value, \$cls)
+	{
+		\$table = \$this->getDbTable();
+		\$select = \$table->select();
+		
+		\$row = \$table->fetchRow(\$select->where("{\$field} = ?", \$value));
+		if (0 == count(\$row)) {
+			return;
+		}
+		
+		\$cls$var2;
+	}
+    
     public function setDbTable(\$dbTable)
     {
         if (is_string(\$dbTable)) {
@@ -270,12 +299,7 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
     }
 
     public function save(Default_Model_{$this->_className} \$cls) {
-
-        \$data = array(
-
-$var1		
-
-	);
+        \$data = array($var1);
 
        if (null === (\$id = \$cls->get{$this->_capitalPrimaryKey}())) {
             unset(\$data["{$this->_primaryKey}"]);
@@ -283,13 +307,10 @@ $var1
         } else {
             \$this->getDbTable()->update(\$data, array("{$this->_primaryKey} = ?" => \$id));
         }
-
-
     }
 	
 
     public function find(\$id, Default_Model_{$this->_className} \$cls) {
-
         \$result = \$this->getDbTable()->find(\$id);
         if (0 == count(\$result)) {
             return;
@@ -298,7 +319,6 @@ $var1
         \$row = \$result->current();
 
         \$cls$var2;
-
     }
 
     public function fetchAll()
