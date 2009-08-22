@@ -1,6 +1,6 @@
 <?php
 
-$version="0.1.1b";
+$version="0.1.2";
 $author="Kfir Ozer <kfirufk@gmail.com>";
 
 class MakeDbTable {
