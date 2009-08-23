@@ -1,6 +1,6 @@
 <?php
 
-$version="0.1.2";
+$version="0.1.2.1";
 $author="Kfir Ozer <kfirufk@gmail.com>";
 
 class MakeDbTable {
@@ -14,7 +14,7 @@ class MakeDbTable {
 	protected $_primaryKey;
 	protected $_namespace;
 
-	protected $_dbhost='localhost';  // database host
+	protected $_dbhost='127.0.0.1';  // database host
 	protected $_dbtype='mysql';    // database type
 	protected $_dbuser='root';       // database user
 	protected $_dbpassword=''; // database password
@@ -303,7 +303,8 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
 
        if (null === (\$id = \$cls->get{$this->_capitalPrimaryKey}())) {
             unset(\$data["{$this->_primaryKey}"]);
-            \$this->getDbTable()->insert(\$data);
+            \$id=\$this->getDbTable()->insert(\$data);
+            \$cls->set{$this->_capitalPrimaryKey}(\$id);
         } else {
             \$this->getDbTable()->update(\$data, array("{$this->_primaryKey} = ?" => \$id));
         }
