@@ -1,3 +1,10 @@
+2009-08-23 02:48  kfirufk
+
+	* .: started using svn2cl to create Changelog file.
+	  whenever the user execute the save() function to insert a new row
+	  (not to update), the last inserted id is saved in the appropriate
+	  protected variable in the model class.
+
 2009-08-22 22:53  kfirufk
 
 	* .: changed version to 0.1.2
