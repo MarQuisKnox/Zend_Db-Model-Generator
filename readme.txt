@@ -9,3 +9,12 @@ Instructions:
    
 For comments/suggestions please e-mail,msn,google talk me at kfirufk@gmail.com
 or "Kfir Ozer" on facebook.
+
+
+
+
+
+THANKS
+------
+
+I want to thank Charles Spraggs for his usful patches and ideas.

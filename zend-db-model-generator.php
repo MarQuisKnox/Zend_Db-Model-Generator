@@ -181,6 +181,7 @@ $gettersNSetters
     		{                             
         		\$methods = get_class_methods(\$this);
         		foreach (\$options as \$key => \$value) {
+						\$key = preg_replace_callback("/_(.)/", create_function('\$matches','return ucfirst(\$matches[1]);'), \$key);
             			\$method = "set" . ucfirst(\$key);
             			if (in_array(\$method, \$methods)) {
                 			\$this->\$method(\$value);                     
@@ -198,7 +199,7 @@ $gettersNSetters
    public function getMapper()                                             
     {                                                                       
         if (null === \$this->_mapper) {                                      
-            \$this->setMapper(new Default_Model_{$this->_className}Mapper());           
+            \$this->setMapper(new {$this->_namespace}_Model_{$this->_className}Mapper());           
         }                                                        
         return \$this->_mapper;                                   
     }                                                            
@@ -293,12 +294,12 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
     public function getDbTable()
     {
         if (null === \$this->_dbTable) {
-            \$this->setDbTable("Default_Model_DbTable_{$this->_className}");
+            \$this->setDbTable("{$this->_namespace}_Model_DbTable_{$this->_className}");
         }
         return \$this->_dbTable;
     }
 
-    public function save(Default_Model_{$this->_className} \$cls) {
+    public function save({$this->_namespace}_Model_{$this->_className} \$cls) {
         \$data = array($var1);
 
        if (null === (\$id = \$cls->get{$this->_capitalPrimaryKey}())) {
@@ -311,7 +312,7 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
     }
 	
 
-    public function find(\$id, Default_Model_{$this->_className} \$cls) {
+    public function find(\$id, {$this->_namespace}_Model_{$this->_className} \$cls) {
         \$result = \$this->getDbTable()->find(\$id);
         if (0 == count(\$result)) {
             return;
@@ -373,13 +374,17 @@ return $dbMapperFile;
 }
 
 
-if (count($argv) != 3) 
-	die("usage: ".basename(__FILE__)." <dbname> <tbname>\nBy: $author Version: $version\n");
+if (count($argv) < 3) 
+	die("usage: ".basename(__FILE__)." <dbname> <tbname> <namespace[=Default]>\nBy: $author Version: $version\n");
 
 $dbname=$argv[1];
 $tbname=$argv[2];
 
-$cls = new MakeDbTable($dbname,$tbname);
+if ($argv[3] !== null) {
+	$namespace = $argv[3];
+}
+
+$cls = new MakeDbTable($dbname,$tbname,$namespace);
 
 	$cls->writeItAll();
 
