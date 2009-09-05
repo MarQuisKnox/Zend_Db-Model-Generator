@@ -1,6 +1,6 @@
 <?php
 
-$version="0.1.3";
+$version="0.1.3a";
 $author="Kfir Ozer <kfirufk@gmail.com>";
 
 class MakeDbTable {
@@ -379,7 +379,7 @@ if (count($argv) < 3)
 
 $dbname=$argv[1];
 $tbname=$argv[2];
-
+$namespace='Default';
 if ($argv[3] !== null) {
 	$namespace = $argv[3];
 }
