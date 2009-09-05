@@ -1,3 +1,19 @@
+2009-09-05 19:27  kfirufk
+
+	* .: fixed a bug where a default namespace would be empty instead
+	  of 'Default' when the user does not supply the optional namespace
+	  parameter.
+
+2009-08-25 07:11  kfirufk
+
+	* .: updated to version 0.1.3
+
+2009-08-25 07:11  kfirufk
+
+	* .: added a 3rd parameter for namespace.
+	  patched setOptions function for a proper conversion column names
+	  to methods. Patches by Charles Spraggs. (thanks)
+
 2009-08-23 02:48  kfirufk
 
 	* .: started using svn2cl to create Changelog file.
