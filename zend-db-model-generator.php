@@ -17,7 +17,7 @@ class MakeDbTable {
 	protected $_dbhost='127.0.0.1';  // database host
 	protected $_dbtype='mysql';    // database type
 	protected $_dbuser='root';       // database user
-	protected $_dbpassword='qweasd'; // database password
+	protected $_dbpassword=''; // database password
 	protected $_addRequire=false;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
 
 
@@ -62,8 +62,7 @@ class MakeDbTable {
 		
 			$columns[]=$row['Field'];
 			if ($row['Key'] == 'PRI')
-                            die(var_export($row,1));
-				//$primaryKey[]=$row['Field'];
+				$primaryKey[]=$row['Field'];
 		}
 
 		if (sizeof($primaryKey) == 0) {
