@@ -17,14 +17,14 @@ class MakeDbTable {
 	protected $_dbhost='127.0.0.1';  // database host
 	protected $_dbtype='mysql';    // database type
 	protected $_dbuser='root';       // database user
-	protected $_dbpassword=''; // database password
+	protected $_dbpassword='qweasd'; // database password
 	protected $_addRequire=false;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
 
 
 	private function _getCapital($str) {
 	
 		$temp='';
-		foreach (split("_",$str) as $part) {
+		foreach (explode("_",$str) as $part) {
 			$temp.=ucfirst($part);
 		}
 		return $temp;
@@ -39,8 +39,7 @@ class MakeDbTable {
 		$pdo = new PDO(
 		    "{$this->_dbtype}:host={$this->_dbhost};dbname=$dbname",
 		    $this->_dbuser,
-		    $this->_dbpassword,
-		    array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+		    $this->_dbpassword
 		);
 
 		$this->_pdo=$pdo;
@@ -50,7 +49,9 @@ class MakeDbTable {
 
 		$this->_className=$this->_getCapital($tbname);
 
-		$qry=$pdo->query("describe $tbname");
+                $pdo->query("SET NAMES UTF8");
+
+                $qry=$pdo->query("describe $tbname");
 		
 		if (!$qry)
 			throw new Exception("describe $tbname returned false!.");
@@ -61,7 +62,8 @@ class MakeDbTable {
 		
 			$columns[]=$row['Field'];
 			if ($row['Key'] == 'PRI')
-				$primaryKey[]=$row['Field'];
+                            die(var_export($row,1));
+				//$primaryKey[]=$row['Field'];
 		}
 
 		if (sizeof($primaryKey) == 0) {
@@ -218,7 +220,13 @@ $gettersNSetters
    public function fetchAll()                                                         
     {                                                                                  
         return \$this->getMapper()->fetchAll();                                          
-    }              
+    }
+
+   public function fetchList(\$where=null, \$order=null, \$count=null, \$offset=null)
+    {
+                return \$this->getMapper()->fetchList(\$where, \$order, \$count, \$offset);
+    }
+
 
 }
 
@@ -334,7 +342,22 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
             \$entries[] = \$entry;
         }
         return \$entries;
-    }    
+    }
+
+    public function fetchList(\$where=null, \$order=null, \$count=null, \$offset=null)
+        {
+                \$resultSet = \$this->getDbTable()->fetchAll(\$where, \$order, \$count, \$offset);
+                \$entries   = array();
+                foreach (\$resultSet as \$row)
+                {
+                        \$entry = new {$this->_namespace}_Model_{$this->_className}();
+                        \$entry->$var2
+                                ->setMapper(\$this);
+                        \$entries[] = \$entry;
+                }
+                return \$entries;
+        }
+
 
 }
 
