@@ -17,8 +17,8 @@ class MakeDbTable {
 	protected $_dbhost='127.0.0.1';  // database host
 	protected $_dbtype='mysql';    // database type
 	protected $_dbuser='root';       // database user
-	protected $_dbpassword=''; // database password
-	protected $_addRequire=false;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
+	protected $_dbpassword='qweasd'; // database password
+	protected $_addRequire=true;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
 
 
 	private function _getCapital($str) {
@@ -60,9 +60,9 @@ class MakeDbTable {
 
 		foreach ($res as $row) {
 		
-			$columns[]=$row['Field'];
 			if ($row['Key'] == 'PRI')
 				$primaryKey[]=$row['Field'];
+                            $columns[]=$row['Field'];
 		}
 
 		if (sizeof($primaryKey) == 0) {
@@ -90,8 +90,15 @@ class MakeDbTable {
 
 	function getDbTableFile() {
 	
+            $requireDbTable='';
+            if ($this->_addRequire)
+                $requireDbTable='require_once("Zend'.DIRECTORY_SEPARATOR.'Db'.DIRECTORY_SEPARATOR.'Table'.DIRECTORY_SEPARATOR.'Abstract.php");';
+
 	$dbTableFile=<<<KFIR
 <?php
+
+$requireDbTable
+
 class {$this->_namespace}_Model_DbTable_{$this->_className} extends Zend_Db_Table_Abstract
 {
 	protected \$_name="{$this->_tbname}";
@@ -126,11 +133,14 @@ KFIR;
 
 		}
 
-		$require = $this->_addRequire ? "require_once(\"{$this->_className}Mapper.php\");" : '';
-
+		$requireModel = '';
+                if ($this->_addRequire)
+                        $requireModel="require_once(\"{$this->_className}Mapper.php\")";
 		$dbMainFile=<<<KFIR
 <?php
-$require
+
+$requireModel;
+
 class {$this->_namespace}_Model_{$this->_className} {
 $classVariables
 	protected \$_mapper;
@@ -250,24 +260,24 @@ KFIR;
 	$var1=join(",\n",$var1);
 
 	$var2=array();
-	$var2[]="->set{$this->_capitalPrimaryKey}(\$row->{$this->_primaryKey})";
+	//$var2[]="->set{$this->_capitalPrimaryKey}(\$row->{$this->_primaryKey})";
 
+        $count=1;
 	foreach ($this->_columns as $column) {
-		
-		$capitalColumn=$this->_getCapital($column);
 
-		$var2[]="\t->set{$capitalColumn}(\$row->{$column})";	
+		$capitalColumn=$this->_getCapital($column);
+		$var2[]=($count++ > 1 ? "\t" : '')."->set{$capitalColumn}(\$row->{$column})";
 
 	}
 
 	$var2=join("\n",$var2);
 	
-	$require=$this->_addRequire ? 'require_once("DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php");' : "";
+	$requireMapper=$this->_addRequire ? 'require_once("DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php");' : "";
 
 		$dbMapperFile=<<<KFIR
 <?php
 
-$require
+$requireMapper
 
 class {$this->_namespace}_Model_{$this->_className}Mapper {
 
@@ -316,8 +326,7 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
         } else {
             \$this->getDbTable()->update(\$data, array("{$this->_primaryKey} = ?" => \$id));
         }
-    }
-	
+     }
 
     public function find(\$id, {$this->_namespace}_Model_{$this->_className} \$cls) {
         \$result = \$this->getDbTable()->find(\$id);
@@ -350,7 +359,7 @@ class {$this->_namespace}_Model_{$this->_className}Mapper {
                 foreach (\$resultSet as \$row)
                 {
                         \$entry = new {$this->_namespace}_Model_{$this->_className}();
-                        \$entry->$var2
+                        \$entry$var2
                                 ->setMapper(\$this);
                         \$entries[] = \$entry;
                 }
@@ -402,7 +411,7 @@ if (count($argv) < 3)
 $dbname=$argv[1];
 $tbname=$argv[2];
 $namespace='Default';
-if ($argv[3] !== null) {
+if (isset($argv[3])) {
 	$namespace = $argv[3];
 }
 
