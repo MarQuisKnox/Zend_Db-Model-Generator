@@ -17,7 +17,7 @@ class MakeDbTable {
 	protected $_dbhost='127.0.0.1';  // database host
 	protected $_dbtype='mysql';    // database type
 	protected $_dbuser='root';       // database user
-	protected $_dbpassword=''; // database password
+	protected $_dbpassword='qweasd'; // database password
 	protected $_addRequire=false;   // to add require_once to in order to include the relevant php files. usful if you don't have class auto-loading. if you're using Zend Framework's MVC you can probably set this to false  
 
 
@@ -180,7 +180,12 @@ $gettersNSetters
     		}                                
                        
 	public function __get(\$name)
-	{                                   
+	{
+        	$name=explode('_',$name);
+                foreach ($name as &$n)
+                    $n=ucfirst($n);
+                $name=implode('',$name);
+                                   
         	\$method = "get\$name";                    
         	if (("mapper" == \$name) || !method_exists(\$this, \$method)) {
             		throw new Exception("name:\$name  - Invalid $this->_tbname property");
