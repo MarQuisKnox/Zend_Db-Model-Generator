@@ -1,86 +1,344 @@
+2009-09-29 10:00  kfirufk
+
+	* .:
+	  added
+	  naming
+	  conversions
+	  to
+	  __set
+	  as
+	  well,
+	  version
+	  0.1.5.1
+
+2009-09-29 09:46  kfirufk
+
+	* .:
+	  fixed
+	  a
+	  bug
+	  in
+	  __get()
+	  function:
+	  name
+	  conversions
+
+2009-09-27 13:28  kfirufk@gmail.com
+
+	* .:
+	  version
+	  0.1.5
+
+2009-09-27 13:27  kfirufk@gmail.com
+
+	* .:
+	  patched
+	  __get
+	  function
+	  in
+	  model
+	  class:
+	  column
+	  names
+	  are
+	  now
+	  properly
+	  converted
+	  to
+	  getters
+	  of
+	  function
+	  name
+
 2009-09-22 13:45  kfirufk@gmail.com
 
-	* .: version 0.1.4
+	* .:
+	  version
+	  0.1.4
 
 2009-09-22 13:42  kfirufk@gmail.com
 
-	* .: updated readme.
-	  added require to Zend_Db_Table_Abstract if _addRequire flag is
-	  ommited enabled.
-	  some code cleanups
-	  fixed duplicated of primary key in some of the functions (thanks
-	  to AJIT DIXIT)
+	* .:
+	  updated
+	  readme. added
+	  require
+	  to
+	  Zend_Db_Table_Abstract
+	  if
+	  _addRequire
+	  flag
+	  is
+	  ommited
+	  enabled. some
+	  code
+	  cleanups fixed
+	  duplicated
+	  of
+	  primary
+	  key
+	  in
+	  some
+	  of
+	  the
+	  functions
+	  (thanks
+	  to
+	  AJIT
+	  DIXIT)
 
 2009-09-20 16:58  kfirufk@gmail.com
 
-	* .: also updated readme file on last commit. removing die() that i
-	  used for debugging in order for the script to work again.
+	* .:
+	  also
+	  updated
+	  readme
+	  file
+	  on
+	  last
+	  commit.
+	  removing
+	  die()
+	  that
+	  i
+	  used
+	  for
+	  debugging
+	  in
+	  order
+	  for
+	  the
+	  script
+	  to
+	  work
+	  again.
 
 2009-09-20 16:54  kfirufk@gmail.com
 
-	* .: changed split() function to explode() (split deprecated from
-	  php 5.3.0)
-	  query('SET NAMES UTF8') instead of using the constant
-	  PDO::MYSQL_ATTR_INIT_COMMAND. the constant seems to be missing in
-	  some php versions.
-	  added fetchList() function (thanks to AJIT DIXIT).
+	* .:
+	  changed
+	  split()
+	  function
+	  to
+	  explode()
+	  (split
+	  deprecated
+	  from
+	  php
+	  5.3.0) query('SET
+	  NAMES
+	  UTF8')
+	  instead
+	  of
+	  using
+	  the
+	  constant
+	  PDO::MYSQL_ATTR_INIT_COMMAND.
+	  the
+	  constant
+	  seems
+	  to
+	  be
+	  missing
+	  in
+	  some
+	  php
+	  versions. added
+	  fetchList()
+	  function
+	  (thanks
+	  to
+	  AJIT
+	  DIXIT).
 
 2009-09-05 19:27  kfirufk
 
-	* .: fixed a bug where a default namespace would be empty instead
-	  of 'Default' when the user does not supply the optional namespace
+	* .:
+	  fixed
+	  a
+	  bug
+	  where
+	  a
+	  default
+	  namespace
+	  would
+	  be
+	  empty
+	  instead
+	  of
+	  'Default'
+	  
+	  when
+	  the
+	  user
+	  does
+	  not
+	  supply
+	  the
+	  optional
+	  namespace
 	  parameter.
 
 2009-08-25 07:11  kfirufk
 
-	* .: updated to version 0.1.3
+	* .:
+	  updated
+	  to
+	  version
+	  0.1.3
 
 2009-08-25 07:11  kfirufk
 
-	* .: added a 3rd parameter for namespace.
-	  patched setOptions function for a proper conversion column names
-	  to methods. Patches by Charles Spraggs. (thanks)
+	* .:
+	  added
+	  a
+	  3rd
+	  parameter
+	  for
+	  namespace.
+	  patched
+	  setOptions
+	  function
+	  for
+	  a
+	  proper
+	  conversion
+	  column
+	  names
+	  to
+	  methods.
+	  Patches
+	  by
+	  Charles
+	  Spraggs.
+	  (thanks)
 
 2009-08-23 02:48  kfirufk
 
-	* .: started using svn2cl to create Changelog file.
-	  whenever the user execute the save() function to insert a new row
-	  (not to update), the last inserted id is saved in the appropriate
-	  protected variable in the model class.
+	* .:
+	  started
+	  using
+	  svn2cl
+	  to
+	  create
+	  Changelog
+	  file. whenever
+	  the
+	  user
+	  execute
+	  the
+	  save()
+	  function
+	  to
+	  insert
+	  a
+	  new
+	  row
+	  (not
+	  to
+	  update),
+	  the
+	  last
+	  inserted
+	  id
+	  is
+	  saved
+	  in
+	  the
+	  appropriate
+	  protected
+	  variable
+	  in
+	  the
+	  model
+	  class.
 
 2009-08-22 22:53  kfirufk
 
-	* .: changed version to 0.1.2
+	* .:
+	  changed
+	  version
+	  to
+	  0.1.2
 
 2009-08-22 22:46  kfirufk
 
-	* .: 1) Fixed a bug where the primary key was being generated twice
-	  in the
-	  Default_{table}_Model class.
-	  2) Add magic method support to do ->findBy<value>(<value>);
-	  fix by Charles Spraggs
+	* .:
+	  1)
+	  Fixed
+	  a
+	  bug
+	  where
+	  the
+	  primary
+	  key
+	  was
+	  being
+	  generated
+	  twice
+	  in
+	  the Default_{table}_Model
+	  class. 2)
+	  Add
+	  magic
+	  method
+	  support
+	  to
+	  do
+	  ->findBy<value>(<value>);
+	  fix
+	  by
+	  Charles
+	  Spraggs
 
 2009-08-22 17:46  kfirufk
 
-	* .: fixed error message on invalid property
+	* .:
+	  fixed
+	  error
+	  message
+	  on
+	  invalid
+	  property
 
 2009-08-20 14:41  kfirufk
 
-	* .: add get/set functions to primary keys
+	* .:
+	  add
+	  get/set
+	  functions
+	  to
+	  primary
+	  keys
 
 2009-07-25 17:03  kfirufk
 
-	* .: replaced '/' with DIRECTORY_SEPARATOR
+	* .:
+	  replaced
+	  '/'
+	  with
+	  DIRECTORY_SEPARATOR
 
 2009-07-25 16:39  kfirufk
 
-	* .: fixed find() decleration in the mapper template
+	* .:
+	  fixed
+	  find()
+	  decleration
+	  in
+	  the
+	  mapper
+	  template
 
 2009-07-07 08:53  kfirufk
 
-	* .: Mapper template fix
+	* .:
+	  Mapper
+	  template
+	  fix
 
 2009-07-02 11:45  kfirufk
 
-	* .: version 0.1
+	* .:
+	  version
+	  0.1
 
