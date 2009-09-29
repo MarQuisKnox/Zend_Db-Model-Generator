@@ -1,6 +1,6 @@
 <?php
 
-$version="0.1.5";
+$version="0.1.5.1";
 $author="Kfir Ozer <kfirufk@gmail.com>";
 
 class MakeDbTable {
@@ -169,9 +169,14 @@ $gettersNSetters
 		
 		throw new Exception("Unrecognized method '\$method()'");
 	}
-
+	
 	public function __set(\$name, \$value)
     		{                         
+               \$name=explode('_',\$name);              
+                foreach (\$name as &\$n)               
+               \$n=ucfirst(\$n);                                                                                                                           
+               \$name=implode('',\$name);
+                                                                    
         		\$method = "set\$name";
         		if (("mapper" == \$name) || !method_exists(\$this, \$method)) {
             			throw new Exception("name:\$name value:\$value - Invalid $this->_tbname property");
