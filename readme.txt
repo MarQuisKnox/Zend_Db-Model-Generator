@@ -5,7 +5,7 @@ Instructions:
 
 1. edit the database connection details in the php file
 2. if you're not using Zend Framework's MVC and you need each file to require the other, change $_addRequire to true.
-2. execute it.
+3. execute it.
    usage: zend-db-model-generator.php <dbname> <tbname> [<namespace>=Default]
    
 For comments/suggestions please e-mail,msn,google talk me at kfirufk@gmail.com.
