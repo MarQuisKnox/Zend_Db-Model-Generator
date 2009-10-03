@@ -1,3 +1,68 @@
+2009-10-03 22:31  kfirufk
+
+	* .:
+	  zdmg
+	  v0.2: rewrote
+	  most
+	  of
+	  the
+	  code. added
+	  phpdoc
+	  to
+	  the
+	  main
+	  class
+	  file. seperated
+	  the
+	  script
+	  to
+	  several
+	  files,
+	  now
+	  the
+	  code
+	  is
+	  cleaner
+	  and
+	  easier
+	  to
+	  understand. added
+	  function
+	  fetchAllToArray() added
+	  config.php
+	  for
+	  configuration
+	  directives added
+	  doc
+	  directory,
+	  api
+	  documents
+	  created
+	  by
+	  phpdoc updated
+	  readme.txt
+	  with
+	  more
+	  information
+	  and
+	  examples
+
+2009-09-30 09:06  kfirufk
+
+	* .:
+	  defaulted
+	  add_required
+	  to
+	  false
+	  again. fixed
+	  typo
+	  in
+	  readme,
+	  thanks
+	  to
+	  Richard
+	  Hamilton
+
 2009-09-29 10:00  kfirufk
 
 	* .:
