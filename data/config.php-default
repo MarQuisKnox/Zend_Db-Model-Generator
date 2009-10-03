@@ -1,0 +1,29 @@
+<?php
+
+define('VERSION',         '0.2');
+define('AUTHOR',          'Kfir Ozer <kfirufk@gmail.com>');
+
+$config=array(
+
+    # database type
+    'db.type' => 'mysql',
+
+    # database host
+    'db.host' => '127.0.0.1',
+
+    # database user
+    'db.user' => 'root',
+
+    # database password
+    'db.password' => 'PASSWORD',
+
+    # if enabled, to add require_once to the model file to include the mapper file,
+    # and in the mapper file to include the dbtable file.
+    # usful if you don't have class auto-loading.
+    # if you're using Zend Framework's MVC you can probably set this to false
+    'include.addrequire' => true,
+
+    # default namespace name
+    'namespace.default' => 'Default'
+
+);
