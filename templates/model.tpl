@@ -126,6 +126,11 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
                 return $this->getMapper()->fetchList($where, $order, $count, $offset);
     }
 
+   public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
+    {
+                return $this->getMapper()->fetchListToArray($where, $order, $count, $offset);
+    }
+
 
 }
 

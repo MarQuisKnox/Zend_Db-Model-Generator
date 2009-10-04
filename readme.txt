@@ -23,7 +23,9 @@ USAGE
 class::fetchAll() - fetch all rows
 class::findBy<field>($value) - find by field, where value eq $value.
 class::find($id) - find a row by primary key
-class::fetchList($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offest.
+class::fetchList($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offset.
+class::fetchListToArray($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offset.
+                                                                               returns each row in an array instead of an instance of the class.
 class::save() - save the current row
 class::set<field>($value) - sets a field with a value
 class::get<field>() - get a field's value

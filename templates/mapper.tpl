@@ -97,5 +97,10 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
                 return $entries;
         }
 
+    public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
+        {
+                $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset)->toArray();
+                return $resultSet;
+        }
 
 }
