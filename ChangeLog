@@ -1,409 +1,179 @@
+2009-10-04 13:13  kfirufk
+
+	* data/config.php-default, readme.txt, templates/mapper.tpl,
+	  templates/model.tpl: added fetchListToArray(), updated readme.
+
+2009-10-03 22:34  kfirufk
+
+	* ChangeLog: updated changelog
+
 2009-10-03 22:31  kfirufk
 
-	* .:
-	  zdmg
-	  v0.2: rewrote
-	  most
-	  of
-	  the
-	  code. added
-	  phpdoc
-	  to
-	  the
-	  main
-	  class
-	  file. seperated
-	  the
-	  script
-	  to
-	  several
-	  files,
-	  now
-	  the
-	  code
-	  is
-	  cleaner
-	  and
-	  easier
-	  to
-	  understand. added
-	  function
-	  fetchAllToArray() added
-	  config.php
-	  for
-	  configuration
-	  directives added
-	  doc
-	  directory,
-	  api
-	  documents
-	  created
-	  by
-	  phpdoc updated
-	  readme.txt
-	  with
-	  more
-	  information
-	  and
-	  examples
+	* TODO, data, data/MakeDbTable.php, data/config.php-default, doc,
+	  doc/blank.html, doc/classtrees_default.html, doc/default,
+	  doc/default/MakeDbTable.html,
+	  doc/default/_data---MakeDbTable.php.html,
+	  doc/default/_data---config.php.html,
+	  doc/default/_zend-db-model-generator.php.html,
+	  doc/elementindex.html, doc/elementindex_default.html,
+	  doc/errors.html, doc/index.html, doc/li_default.html, doc/media,
+	  doc/media/banner.css, doc/media/stylesheet.css,
+	  doc/packages.html, readme.txt, templates, templates/dbtable.tpl,
+	  templates/mapper.tpl, templates/model.tpl,
+	  zend-db-model-generator.php: zdmg v0.2:
+	  rewrote most of the code.
+	  added phpdoc to the main class file.
+	  seperated the script to several files, now the code is cleaner
+	  and easier to understand.
+	  added function fetchAllToArray()
+	  added config.php for configuration directives
+	  added doc directory, api documents created by phpdoc
+	  updated readme.txt with more information and examples
+
+2009-09-30 09:08  kfirufk
+
+	* readme.txt: updated readme
 
 2009-09-30 09:06  kfirufk
 
-	* .:
-	  defaulted
-	  add_required
-	  to
-	  false
-	  again. fixed
-	  typo
-	  in
-	  readme,
-	  thanks
-	  to
-	  Richard
-	  Hamilton
+	* readme.txt, zend-db-model-generator.php: defaulted add_required
+	  to false again.
+	  fixed typo in readme, thanks to Richard Hamilton
+
+2009-09-29 10:01  kfirufk
+
+	* ChangeLog: updated changelog
 
 2009-09-29 10:00  kfirufk
 
-	* .:
-	  added
-	  naming
-	  conversions
-	  to
-	  __set
-	  as
-	  well,
-	  version
-	  0.1.5.1
+	* zend-db-model-generator.php: added naming conversions to __set as
+	  well, version 0.1.5.1
 
 2009-09-29 09:46  kfirufk
 
-	* .:
-	  fixed
-	  a
-	  bug
-	  in
-	  __get()
-	  function:
-	  name
-	  conversions
+	* zend-db-model-generator.php: fixed a bug in __get() function:
+	  name conversions
 
 2009-09-27 13:28  kfirufk@gmail.com
 
-	* .:
-	  version
-	  0.1.5
+	* zend-db-model-generator.php: version 0.1.5
 
 2009-09-27 13:27  kfirufk@gmail.com
 
-	* .:
-	  patched
-	  __get
-	  function
-	  in
-	  model
-	  class:
-	  column
-	  names
-	  are
-	  now
-	  properly
-	  converted
-	  to
-	  getters
-	  of
-	  function
-	  name
+	* ChangeLog, zend-db-model-generator.php: patched __get function in
+	  model class: column names are now properly converted to getters
+	  of function name
 
 2009-09-22 13:45  kfirufk@gmail.com
 
-	* .:
-	  version
-	  0.1.4
+	* ChangeLog, zend-db-model-generator.php: version 0.1.4
 
 2009-09-22 13:42  kfirufk@gmail.com
 
-	* .:
-	  updated
-	  readme. added
-	  require
-	  to
-	  Zend_Db_Table_Abstract
-	  if
-	  _addRequire
-	  flag
-	  is
-	  ommited
-	  enabled. some
-	  code
-	  cleanups fixed
-	  duplicated
-	  of
-	  primary
-	  key
-	  in
-	  some
-	  of
-	  the
-	  functions
-	  (thanks
-	  to
-	  AJIT
-	  DIXIT)
+	* ., readme.txt, zend-db-model-generator.php: updated readme.
+	  added require to Zend_Db_Table_Abstract if _addRequire flag is
+	  ommited enabled.
+	  some code cleanups
+	  fixed duplicated of primary key in some of the functions (thanks
+	  to AJIT DIXIT)
 
 2009-09-20 16:58  kfirufk@gmail.com
 
-	* .:
-	  also
-	  updated
-	  readme
-	  file
-	  on
-	  last
-	  commit.
-	  removing
-	  die()
-	  that
-	  i
-	  used
-	  for
-	  debugging
-	  in
-	  order
-	  for
-	  the
-	  script
-	  to
-	  work
-	  again.
+	* ., zend-db-model-generator.php: also updated readme file on last
+	  commit. removing die() that i used for debugging in order for the
+	  script to work again.
 
 2009-09-20 16:54  kfirufk@gmail.com
 
-	* .:
-	  changed
-	  split()
-	  function
-	  to
-	  explode()
-	  (split
-	  deprecated
-	  from
-	  php
-	  5.3.0) query('SET
-	  NAMES
-	  UTF8')
-	  instead
-	  of
-	  using
-	  the
-	  constant
-	  PDO::MYSQL_ATTR_INIT_COMMAND.
-	  the
-	  constant
-	  seems
-	  to
-	  be
-	  missing
-	  in
-	  some
-	  php
-	  versions. added
-	  fetchList()
-	  function
-	  (thanks
-	  to
-	  AJIT
-	  DIXIT).
+	* TODO, readme.txt, zend-db-model-generator.php: changed split()
+	  function to explode() (split deprecated from php 5.3.0)
+	  query('SET NAMES UTF8') instead of using the constant
+	  PDO::MYSQL_ATTR_INIT_COMMAND. the constant seems to be missing in
+	  some php versions.
+	  added fetchList() function (thanks to AJIT DIXIT).
+
+2009-09-05 19:28  kfirufk
+
+	* ChangeLog: version 0.1.3a
 
 2009-09-05 19:27  kfirufk
 
-	* .:
-	  fixed
-	  a
-	  bug
-	  where
-	  a
-	  default
-	  namespace
-	  would
-	  be
-	  empty
-	  instead
-	  of
-	  'Default'
-	  
-	  when
-	  the
-	  user
-	  does
-	  not
-	  supply
-	  the
-	  optional
-	  namespace
-	  parameter.
+	* zend-db-model-generator.php: fixed a bug where a default
+	  namespace would be empty instead of 'Default' when the user does
+	  not supply the optional namespace parameter.
 
 2009-08-25 07:11  kfirufk
 
-	* .:
-	  updated
-	  to
-	  version
-	  0.1.3
+	* zend-db-model-generator.php: updated to version 0.1.3
 
 2009-08-25 07:11  kfirufk
 
-	* .:
-	  added
-	  a
-	  3rd
-	  parameter
-	  for
-	  namespace.
-	  patched
-	  setOptions
-	  function
-	  for
-	  a
-	  proper
-	  conversion
-	  column
-	  names
-	  to
-	  methods.
-	  Patches
-	  by
-	  Charles
-	  Spraggs.
-	  (thanks)
+	* readme.txt, zend-db-model-generator.php: added a 3rd parameter
+	  for namespace.
+	  patched setOptions function for a proper conversion column names
+	  to methods. Patches by Charles Spraggs. (thanks)
+
+2009-08-23 02:58  kfirufk
+
+	* ChangeLog: updated changelog
 
 2009-08-23 02:48  kfirufk
 
-	* .:
-	  started
-	  using
-	  svn2cl
-	  to
-	  create
-	  Changelog
-	  file. whenever
-	  the
-	  user
-	  execute
-	  the
-	  save()
-	  function
-	  to
-	  insert
-	  a
-	  new
-	  row
-	  (not
-	  to
-	  update),
-	  the
-	  last
-	  inserted
-	  id
-	  is
-	  saved
-	  in
-	  the
-	  appropriate
-	  protected
-	  variable
-	  in
-	  the
-	  model
-	  class.
+	* ChangeLog, zend-db-model-generator.php: started using svn2cl to
+	  create Changelog file.
+	  whenever the user execute the save() function to insert a new row
+	  (not to update), the last inserted id is saved in the appropriate
+	  protected variable in the model class.
+
+2009-08-22 22:56  kfirufk
+
+	* ChangeLog: add changelog file
 
 2009-08-22 22:53  kfirufk
 
-	* .:
-	  changed
-	  version
-	  to
-	  0.1.2
+	* zend-db-model-generator.php: changed version to 0.1.2
 
 2009-08-22 22:46  kfirufk
 
-	* .:
-	  1)
-	  Fixed
-	  a
-	  bug
-	  where
-	  the
-	  primary
-	  key
-	  was
-	  being
-	  generated
-	  twice
-	  in
-	  the Default_{table}_Model
-	  class. 2)
-	  Add
-	  magic
-	  method
-	  support
-	  to
-	  do
-	  ->findBy<value>(<value>);
-	  fix
-	  by
-	  Charles
-	  Spraggs
+	* zend-db-model-generator.php: 1) Fixed a bug where the primary key
+	  was being generated twice in the
+	  Default_{table}_Model class.
+	  2) Add magic method support to do ->findBy<value>(<value>);
+	  fix by Charles Spraggs
 
 2009-08-22 17:46  kfirufk
 
-	* .:
-	  fixed
-	  error
-	  message
-	  on
-	  invalid
+	* zend-db-model-generator.php: fixed error message on invalid
 	  property
 
 2009-08-20 14:41  kfirufk
 
-	* .:
-	  add
-	  get/set
-	  functions
-	  to
-	  primary
+	* zend-db-model-generator.php: add get/set functions to primary
 	  keys
 
 2009-07-25 17:03  kfirufk
 
-	* .:
-	  replaced
-	  '/'
-	  with
+	* zend-db-model-generator.php: replaced '/' with
 	  DIRECTORY_SEPARATOR
 
 2009-07-25 16:39  kfirufk
 
-	* .:
-	  fixed
-	  find()
-	  decleration
-	  in
-	  the
-	  mapper
-	  template
+	* zend-db-model-generator.php: fixed find() decleration in the
+	  mapper template
+
+2009-07-22 11:56  kfirufk
+
+	* TODO: added TODO file.
 
 2009-07-07 08:53  kfirufk
 
-	* .:
-	  Mapper
-	  template
-	  fix
+	* zend-db-model-generator.php: Mapper template fix
 
 2009-07-02 11:45  kfirufk
 
-	* .:
-	  version
-	  0.1
+	* readme.txt, zend-db-model-generator.php: version 0.1
+
+2009-07-02 11:39  
+
+	* .: Initial directory structure.
 

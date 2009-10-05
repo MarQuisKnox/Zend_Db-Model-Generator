@@ -1,6 +1,6 @@
 <?="<?php\n"?>
 <? if ($this->_addRequire):?>
-require_once("<?=$this->_className?>Mapper.php");
+require_once('<?=$this->_className?>Mapper.php');
 <? endif; ?>
 
 class <?=$this->_namespace?>_Model_<?=$this->_className?> {
@@ -31,7 +31,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
 		 */
 		if (preg_match('/^findBy(\w+)?$/', $method, $matches)) {
 			$methods = get_class_methods($this);
-			$check = "set{$matches[1]}";
+			$check = 'set'.$matches[1];
 			
 			if (!in_array($check, $methods)) {
 				throw new Exception("Invalid field {$matches[1]} requested for table");
@@ -57,9 +57,9 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
                $n=ucfirst($n);                                                                                                                           
                $name=implode('',$name);
                                                                     
-        		$method = "set$name";
-        		if (("mapper" == $name) || !method_exists($this, $method)) {
-            			throw new Exception("name:$name value:$value - Invalid $this->_tbname property");
+        		$method = 'set'.$name;
+        		if (('mapper' == $name) || !method_exists($this, $method)) {
+            			throw new Exception("name:$name value:$value - Invalid {$this->_tbname} property");
         		}
         		$this->$method($value);  
     		}                                
@@ -71,8 +71,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
                    $n=ucfirst($n);
                 $name=implode('',$name);
                                    
-        	$method = "get$name";                    
-        	if (("mapper" == $name) || !method_exists($this, $method)) {
+        	$method = 'get'.$name;
+        	if (('mapper' == $name) || !method_exists($this, $method)) {
             		throw new Exception("name:$name  - Invalid $this->_tbname property");
         	}
         	return $this->$method();
@@ -82,8 +82,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
     		{
         		$methods = get_class_methods($this);
         		foreach ($options as $key => $value) {
-				$key = preg_replace_callback("/_(.)/", create_function('$matches','return ucfirst($matches[1]);'), $key);
-            			$method = "set" . ucfirst($key);
+				$key = preg_replace_callback('/_(.)/', create_function('$matches','return ucfirst($matches[1]);'), $key);
+            			$method = 'set' . ucfirst($key);
             			if (in_array($method, $methods)) {
                 			$this->$method($value);
            	 		}
@@ -130,6 +130,14 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
     {
                 return $this->getMapper()->fetchListToArray($where, $order, $count, $offset);
     }
+
+   public function deleteRowByPrimaryKey() {
+                return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.get<?=$this->_capitalPrimaryKey?>());
+   }
+
+   public function delete($where) {
+                return $this->getMapper()->getDbTable()->delete($where);
+   }
 
 
 }

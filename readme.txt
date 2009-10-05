@@ -31,6 +31,9 @@ class::set<field>($value) - sets a field with a value
 class::get<field>() - get a field's value
 class::fetchAllToArray() - returns all the rows of the table in an array
 
+class::deleteRowByPrimaryKey() - in general it's used to delete the current loaded row
+class::delete($where)   - delete rows in the table by $where
+
 Example:
 
 class for database table 'users':

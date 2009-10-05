@@ -1,6 +1,6 @@
 <?="<?php\n"?>
 <? if ($this->_addRequire):?>
-require_once("DbTable<?=DIRECTORY_SEPARATOR?><?=$this->_className?>.php");
+require_once('DbTable<?=DIRECTORY_SEPARATOR?><?=$this->_className?>.php');
 <? endif?>
 
 class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
@@ -27,7 +27,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             $dbTable = new $dbTable();
         }
         if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception("Invalid table data gateway provided");
+            throw new Exception('Invalid table data gateway provided');
         }
         $this->_dbTable = $dbTable;
         return $this;
@@ -36,7 +36,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     public function getDbTable()
     {
         if (null === $this->_dbTable) {
-            $this->setDbTable("<?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>");
+            $this->setDbTable('<?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>');
         }
         return $this->_dbTable;
     }
@@ -49,11 +49,11 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         );
 
        if (null === ($id = $cls->get<?=$this->_capitalPrimaryKey?>())) {
-            unset($data["<?=$this->_primaryKey?>"]);
+            unset($data['<?=$this->_primaryKey?>']);
             $id=$this->getDbTable()->insert($data);
             $cls->set<?=$this->_capitalPrimaryKey?>($id);
         } else {
-            $this->getDbTable()->update($data, array("<?=$this->_primaryKey?> = ?" => $id));
+            $this->getDbTable()->update($data, array('<?=$this->_primaryKey?> = ?' => $id));
         }
      }
 
