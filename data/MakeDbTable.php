@@ -92,7 +92,7 @@ class MakeDbTable {
                 $this->_addRequire=$config['include.addrequire'];
 
 		$pdo = new PDO(
-		    "{$this->_config['db.type']}:host={$this->_config['db->host']};dbname=$dbname",
+		    "{$this->_config['db.type']}:host={$this->_config['db.host']};dbname=$dbname",
 		    $this->_config['db.user'],
 		    $this->_config['db.password']
 		);
