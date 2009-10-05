@@ -90,4 +90,4 @@ $users->save();
 THANKS
 ------
 I want to thank the following people for their feedback/patches/comments:
-Charles Spraggs,Richard Hamilton,AJIT DIXIT
+Charles Spraggs,Richard Hamilton,AJIT DIXIT,Aleksandar Scepanovic
