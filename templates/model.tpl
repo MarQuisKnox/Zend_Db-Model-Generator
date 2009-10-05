@@ -132,7 +132,9 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> {
     }
 
    public function deleteRowByPrimaryKey() {
-                return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.get<?=$this->_capitalPrimaryKey?>());
+                if (!$this->get<?=$this->_capitalPrimaryKey?>())
+                    throw new Exception('Primary Key does not contain a value');
+                return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.$this->get<?=$this->_capitalPrimaryKey?>());
    }
 
    public function delete($where) {
