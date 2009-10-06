@@ -1,6 +1,5 @@
 <?php
 
-require_once('Zend/Config/Ini.php');
 require_once('data/MakeDbTable.php');
 require_once('data/config.php');
 
