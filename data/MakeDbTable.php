@@ -46,7 +46,7 @@ class MakeDbTable {
 	protected $_namespace;
 
          /**
-          *  @var Zend_Config_Ini $_config;
+          *  @var Array $_config;
           */
         protected $_config;
 
@@ -93,7 +93,7 @@ class MakeDbTable {
          *
          *  the class constructor
          *
-         * @param Zend_Config_Ini $config
+         * @param Array $config
          * @param String $dbname
          * @param String $tbname
          * @param String $namespace
