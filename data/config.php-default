@@ -1,9 +1,18 @@
 <?php
 
-define('VERSION',         '0.2.1');
+define('VERSION',         '0.2.3');
 define('AUTHOR',          'Kfir Ozer <kfirufk@gmail.com>');
 
 $config=array(
+
+    # author name used in documentation
+    'docs.author' => '<YOUR NAME HERE>',
+
+    # licence for your code
+    'docs.license' => 'http://framework.zend.com/license/new-bsd     New BSD License',
+
+    # copyright for your (generated) code
+    'docs.copyright' => 'ZF model generator',
 
     # database type
     'db.type' => 'mysql',
@@ -21,7 +30,7 @@ $config=array(
     # and in the mapper file to include the dbtable file.
     # usful if you don't have class auto-loading.
     # if you're using Zend Framework's MVC you can probably set this to false
-    'include.addrequire' => true,
+    'include.addrequire' => false,
 
     # default namespace name
     'namespace.default' => 'Default'

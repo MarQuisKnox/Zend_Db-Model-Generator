@@ -3,23 +3,35 @@
 require_once('DbTable<?=DIRECTORY_SEPARATOR?><?=$this->_className?>.php');
 <? endif?>
 
+/**
+ * Add your description here
+ *
+ * @author <?=$this->_author."\n"?>
+ * @copyright <?=$this->_copyright."\n"?>
+ * @license <?=$this->_license."\n"?>
+ */
+
 class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
 
+    /**
+     * $_dbTable - instance of <?=$this->_namespace?>_Model_DbTable_<?=$this->_className."\n"?>
+     *
+     * @var string
+     */
     protected $_dbTable;
 
-	public function findByField($field, $value, $cls)
-	{
-		$table = $this->getDbTable();
-		$select = $table->select();
-		
-		$row = $table->fetchRow($select->where("{$field} = ?", $value));
-		if (0 == count($row)) {
-			return;
-		}
-		
-		$cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+    public function findByField($field, $value, $cls)
+    {
+            $table = $this->getDbTable();
+            $select = $table->select();
 
-	}
+            $row = $table->fetchRow($select->where("{$field} = ?", $value));
+            if (0 == count($row)) {
+                    return;
+            }
+
+            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+    }
     
     public function setDbTable($dbTable)
     {
@@ -41,7 +53,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         return $this->_dbTable;
     }
 
-    public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls) {
+    public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
+    {
         $data = array(
   	<?foreach ($this->_columns as $column):?>
             <?=$column?> => $cls->get<?=$this->_getCapital($column)?>(),
@@ -55,9 +68,10 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         } else {
             $this->getDbTable()->update($data, array('<?=$this->_primaryKey?> = ?' => $id));
         }
-     }
+    }
 
-    public function find($id, <?=$this->_namespace?>_Model_<?=$this->_className?> $cls) {
+    public function find($id, <?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
+    {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
             return;
@@ -83,24 +97,24 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     }
 
     public function fetchList($where=null, $order=null, $count=null, $offset=null)
-        {
-                $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
-                $entries   = array();
-                foreach ($resultSet as $row)
-                {
-                        $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
-                        $entry<?foreach ($this->_columns as $column):?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)
-                              <? endforeach;?>
-    ->setMapper($this);
-                        $entries[] = $entry;
-                }
-                return $entries;
-        }
+    {
+            $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
+            $entries   = array();
+            foreach ($resultSet as $row)
+            {
+                    $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
+                    $entry<?foreach ($this->_columns as $column):?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)
+                          <? endforeach;?>
+->setMapper($this);
+                    $entries[] = $entry;
+            }
+            return $entries;
+    }
 
     public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
-        {
-                $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset)->toArray();
-                return $resultSet;
-        }
+    {
+            $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset)->toArray();
+            return $resultSet;
+    }
 
 }

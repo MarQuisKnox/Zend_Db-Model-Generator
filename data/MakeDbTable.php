@@ -55,6 +55,22 @@ class MakeDbTable {
           */
         protected $_addRequire;
 
+         /**
+          *   @var String $_author;
+          */
+	protected $_author;
+
+         /**
+          *   @var String $_license;
+          */
+	protected $_license;
+
+         /**
+          *   @var String $_copyright;
+          */
+	protected $_copyright;
+
+
 	/**
          *
          *  removes underscores and capital the letter that was after the underscore
@@ -100,6 +116,11 @@ class MakeDbTable {
 		$this->_pdo=$pdo;
 		$this->_tbname=$tbname;
 		$this->_namespace=$namespace;
+
+                //docs section
+                $this->_author=$this->_config['docs.author'];
+                $this->_license=$this->_config['docs.license'];
+                $this->_copyright=$this->_config['docs.copyright'];
 
 
 		$this->_className=$this->_getCapital($tbname);
