@@ -16,7 +16,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     /**
      * $_dbTable - instance of <?=$this->_namespace?>_Model_DbTable_<?=$this->_className."\n"?>
      *
-     * @var string
+     * @var <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
+     
      */
     protected $_dbTable;
 
@@ -30,7 +31,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
                     return;
             }
 
-            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
     }
     
     public function setDbTable($dbTable)
@@ -57,14 +58,14 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     {
         $data = array(
   	<?foreach ($this->_columns as $column):?>
-            <?=$column?> => $cls->get<?=$this->_getCapital($column)?>(),
+            <?=$column['field']?> => $cls->get<?=$column['capital']?>(),
 	<?endforeach;?>
         );
 
-       if (null === ($id = $cls->get<?=$this->_capitalPrimaryKey?>())) {
+       if (null === ($id = $cls->get<?=$this->_primaryKey['capital']?>())) {
             unset($data['<?=$this->_primaryKey?>']);
             $id=$this->getDbTable()->insert($data);
-            $cls->set<?=$this->_capitalPrimaryKey?>($id);
+            $cls->set<?=$this->_primaryKey['capital']?>($id);
         } else {
             $this->getDbTable()->update($data, array('<?=$this->_primaryKey?> = ?' => $id));
         }
@@ -79,7 +80,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
 
         $row = $result->current();
 
-        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
     }
 
     public function fetchAll()
@@ -88,7 +89,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         $entries   = array();
         foreach ($resultSet as $row) {
             $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
-            $entry<?foreach ($this->_columns as $column): $count--?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)
+            $entry<?foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
                   <?endforeach;?>
             ->setMapper($this);
             $entries[] = $entry;
@@ -103,7 +104,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             foreach ($resultSet as $row)
             {
                     $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
-                    $entry<?foreach ($this->_columns as $column):?>->set<?=$this->_getCapital($column)?>($row-><?=$column?>)
+                    $entry<?foreach ($this->_columns as $column):?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
                           <? endforeach;?>
 ->setMapper($this);
                     $entries[] = $entry;

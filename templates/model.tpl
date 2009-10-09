@@ -14,23 +14,39 @@ require_once('<?=$this->_className?>Mapper.php');
 class <?=$this->_namespace?>_Model_<?=$this->_className?>
 {
 
-<?foreach ($this->_capitalColumns as $column):?>
-    protected $_<?=$column?>;
+<?foreach ($this->_columns as $column):?>
+    /**
+     * mysql var type <?=$column['type']?>
+
+     *
+     * @var <?=$column['phptype']?>
+     
+     */
+    protected $_<?=$column['capital']?>;
+    
 <?endforeach;?>
 
     protected $_mapper;
 	
-    <?foreach ($this->_capitalColumns as $column):?>
+    <?foreach ($this->_columns as $column):?>
 
-    public function set<?=$column?>($data)
+    /**
+     *
+     * @param <?=$column['phptype']?> $data
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
+     
+     *
+     **/
+
+    public function set<?=$column['capital']?>($data)
     {
-        $this->_<?=$column?>=$data;
+        $this->_<?=$column['capital']?>=$data;
         return $this;
     }
 
-    public function get<?=$column?>()
+    public function get<?=$column['capital']?>()
     {
-        return $this->_<?=$column?>;
+        return $this->_<?=$column['capital']?>;
     }
     <?endforeach;?>
 
@@ -147,9 +163,9 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
 
     public function deleteRowByPrimaryKey()
     {
-        if (!$this->get<?=$this->_capitalPrimaryKey?>())
+        if (!$this->get<?=$this->_primaryKey['capital']?>())
             throw new Exception('Primary Key does not contain a value');
-        return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.$this->get<?=$this->_capitalPrimaryKey?>());
+        return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.$this->get<?=$this->_primaryKey['capital']?>());
     }
 
     public function delete($where)

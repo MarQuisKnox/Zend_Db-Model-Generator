@@ -20,15 +20,6 @@ class MakeDbTable {
           */
 	protected $_columns;
 
-          /**
-           *   @var Array $_capitalColumns;
-           */
-	protected $_capitalColumns;
-
-         /**
-          *   @var String $_capitalPrimaryKey;
-          */
-	protected $_capitalPrimaryKey;
 
          /**
           * @var String $_className;
@@ -80,14 +71,27 @@ class MakeDbTable {
          * @return String
          */
         private function _getCapital($str) {
-
-		$temp='';
-		foreach (explode("_",$str) as $part) {
-			$temp.=ucfirst($part);
-		}
-		return $temp;
+            $temp='';
+            foreach (explode("_",$str) as $part) {
+                    $temp.=ucfirst($part);
+            }
+            return $temp;
 
 	}
+
+        /**
+         * converts MySQL data types to PHP data types
+         *
+         * @param string $str
+         * @return string
+         */
+        private function _convertMysqlTypeToPhp($str) {
+
+            preg_match('#^(?:tiny|small|medium|long|big|var)?(\w+)(?:\(\d+\))?(?:\s\w+)*$#',$str,$matches);
+            $res=str_ireplace(array('timestamp','blob','char'), 'string', $matches[1]);
+            return $res;
+
+        }
 
 	/**
          *
@@ -135,13 +139,20 @@ class MakeDbTable {
 		$res=$qry->fetchAll();
 
 		foreach ($res as $row) {
-
 			if ($row['Key'] == 'PRI')
-				$primaryKey[]=$row['Field'];
-                            $columns[]=$row['Field'];
+				$primaryKey[]=array(
+                                        'field'=>$row['Field'],
+                                        'type'=>$row['Type'],
+                                        'phptype'=>$this->_convertMysqlTypeToPhp($row['Type']),
+                                        'capital'=>$this->_getCapital($row['Field']));
+                        $columns[]=array(
+                                'field'=>$row['Field'],
+                                'type'=>$row['Type'],
+                                'phptype'=>$this->_convertMysqlTypeToPhp($row['Type']),
+                                'capital'=>$this->_getCapital($row['Field']));
 		}
 
-		if (sizeof($primaryKey) == 0) {
+                if (sizeof($primaryKey) == 0) {
 			throw new Exception("didn't find primary keys in table $tbname.");
 		}
 
@@ -152,15 +163,6 @@ class MakeDbTable {
 		$this->_primaryKey=$primaryKey[0];
 
 		$this->_columns=$columns;
-
-		$capitalColumns=array();
-
-		foreach ($columns as $column)
-			$capitalColumns[]=$this->_getCapital($column);
-
-		$this->_capitalColumns=$capitalColumns;
-
-		$this->_capitalPrimaryKey=$this->_getCapital($this->_primaryKey);
 
 	}
 

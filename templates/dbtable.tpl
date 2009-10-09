@@ -22,10 +22,13 @@ class <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> extends Zend_D
 
         /**
          * $_id - this is the primary key of <?=$this->_tbname?> table
+         *        <?=$this->_primaryKey['type']?>
+         
          *
-         * @var int
+         * @var <?=$this->_primaryKey['phptype']?>
+         
          */
-	protected $_id='<?=$this->_primaryKey?>';
+	protected $_id='<?=$this->_primaryKey['field']?>';
 
 }
 
