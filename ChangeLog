@@ -1,3 +1,74 @@
+2009-10-10 14:20  kfirufk@gmail.com
+
+	* TODO, data/config.php-default, templates/mapper.tpl,
+	  templates/model.tpl, zend-db-model-generator.php: moved defines
+	  to main php file instead of config file
+	  added more phpdocs
+
+2009-10-09 11:52  kfirufk@gmail.com
+
+	* data/MakeDbTable.php, templates/dbtable.tpl,
+	  templates/mapper.tpl, templates/model.tpl: added phpdocs to
+	  variables,
+	  new function to convert mysql data types to php
+	  fixed php docs
+	  code cleanup
+
+2009-10-06 13:09  kfirufk
+
+	* zend-db-model-generator.php: removed the include of
+	  Zend/Config/Ini.php
+
+2009-10-06 11:22  kfirufk
+
+	* data/MakeDbTable.php, doc, doc/blank.html,
+	  doc/classtrees_default.html, doc/default,
+	  doc/default/MakeDbTable.html,
+	  doc/default/_data---MakeDbTable.php.html,
+	  doc/default/_zend-db-model-generator.php.html,
+	  doc/elementindex.html, doc/elementindex_default.html,
+	  doc/errors.html, doc/index.html, doc/li_default.html, doc/media,
+	  doc/media/banner.css, doc/media/stylesheet.css,
+	  doc/packages.html: removed Zend_Config_Ini from include.
+	  regenreated doc directory. now closing v0.2.3.
+
+2009-10-06 11:19  kfirufk
+
+	* data/MakeDbTable.php, data/config.php-default, doc,
+	  templates/dbtable.tpl, templates/mapper.tpl, templates/model.tpl:
+	  version 0.2.3:
+	  templates follow ZF coding standards
+	  basic doc generation support
+	  A big thanks to Aleksandar Scepanovic for his comments and
+	  patches.
+
+2009-10-05 19:03  kfirufk
+
+	* doc/classtrees_default.html, doc/errors.html, doc/index.html:
+	  updated doc directory
+
+2009-10-05 19:00  kfirufk
+
+	* readme.txt: updated readme. single quotes and delete functions
+	  where created by the help of Alek's comments.
+
+2009-10-05 18:56  kfirufk@gmail.com
+
+	* templates/model.tpl: fixed bugs related to delete and
+	  deleteRowById(). added validation check on
+	  deleteRowByPrimaryKey()
+
+2009-10-05 18:44  kfirufk@gmail.com
+
+	* ChangeLog, readme.txt, templates/dbtable.tpl,
+	  templates/mapper.tpl, templates/model.tpl: changed double quotes
+	  to single quotes when possible.
+	  added delete() and deleteRowByPrimaryKey() function
+
+2009-10-05 17:05  kfirufk@gmail.com
+
+	* data/MakeDbTable.php: fixed host in pdo connection
+
 2009-10-04 13:13  kfirufk
 
 	* data/config.php-default, readme.txt, templates/mapper.tpl,

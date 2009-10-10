@@ -1,8 +1,6 @@
 Zend-Db-Model-Generator
 ----------------------
 
-
-
 Instructions:
 
 1. copy config.php-default to config.php inside data directory
@@ -91,3 +89,6 @@ THANKS
 ------
 I want to thank the following people for their feedback/patches/comments:
 Charles Spraggs,Richard Hamilton,AJIT DIXIT,Aleksandar Scepanovic
+
+
+Changelog is created by svn2cl (http://arthurdejong.org/svn2cl).
