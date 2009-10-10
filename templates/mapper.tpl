@@ -21,6 +21,13 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      */
     protected $_dbTable;
 
+    /**
+     * finds a row where $field equals $value
+     *
+     * @param string $field
+     * @param mixed $value
+     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     */
     public function findByField($field, $value, $cls)
     {
             $table = $this->getDbTable();
@@ -34,6 +41,13 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
     }
     
+    /**
+     * sets the dbTable class
+     *
+     * @param <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> $dbTable
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper
+     * 
+     */
     public function setDbTable($dbTable)
     {
         if (is_string($dbTable)) {
@@ -46,6 +60,12 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         return $this;
     }
 
+    /**
+     * returns the dbTable class
+     * 
+     * @return <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
+     
+     */
     public function getDbTable()
     {
         if (null === $this->_dbTable) {
@@ -54,6 +74,13 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         return $this->_dbTable;
     }
 
+    /**
+     * saves current row
+     *
+     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     *
+     */
+     
     public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
     {
         $data = array(
@@ -71,6 +98,13 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         }
     }
 
+    /**
+     * finds row by primary key
+     *
+     * @param <?=$this->_primaryKey['phptype']?> $id
+     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     */
+
     public function find($id, <?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
     {
         $result = $this->getDbTable()->find($id);
@@ -83,6 +117,11 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
     }
 
+    /**
+     * fetches all rows 
+     *
+     * @return array
+     */
     public function fetchAll()
     {
         $resultSet = $this->getDbTable()->fetchAll();
@@ -97,6 +136,15 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         return $entries;
     }
 
+    /**
+     * fetches all rows optionally filtered by where,order,count and offset
+     * 
+     * @param string $where
+     * @param string $order
+     * @param int $count
+     * @param int $offset 
+     *
+     */
     public function fetchList($where=null, $order=null, $count=null, $offset=null)
     {
             $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
@@ -112,6 +160,15 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             return $entries;
     }
 
+    /**
+     * fetches all rows optionally filtered by where,order,count and offset
+     *
+     * @param string $where
+     * @param string $order
+     * @param int $count
+     * @param int $offset
+     *
+     */
     public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
     {
             $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset)->toArray();

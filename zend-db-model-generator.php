@@ -1,5 +1,9 @@
 <?php
 
+define('VERSION',         '0.3');
+define('AUTHOR',          'Kfir Ozer <kfirufk@gmail.com>');
+
+
 require_once('data/MakeDbTable.php');
 require_once('data/config.php');
 

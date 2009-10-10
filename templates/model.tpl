@@ -31,6 +31,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
     <?foreach ($this->_columns as $column):?>
 
     /**
+     * sets column <?=$column['field']?> type <?=$column['type']?>
+     
      *
      * @param <?=$column['phptype']?> $data
      * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
@@ -44,21 +46,32 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this;
     }
 
+    /**
+     * gets column <?=$column['field']?> type <?=$column['type']?>
+
+     * @return <?=$column['phptype']?>
+     
+     */
+     
     public function get<?=$column['capital']?>()
     {
         return $this->_<?=$column['capital']?>;
     }
     <?endforeach;?>
 
+    /**
+     * Recognize methods for Belongs-To cases:
+     * findBy<field>()
+     * Use the non-greedy pattern repeat modifier e.g. \w+?
+     *
+     * @param string $method
+     * @param array  $args
+     */
+
     public function __call($method, array $args)
     {
         $matches = array();
 
-        /**
-         * Recognize methods for Belongs-To cases:
-         * findBy<field>()
-         * Use the non-greedy pattern repeat modifier e.g. \w+?
-         */
         if (preg_match('/^findBy(\w+)?$/', $method, $matches)) {
                 $methods = get_class_methods($this);
                 $check = 'set'.$matches[1];
@@ -74,11 +87,28 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         throw new Exception("Unrecognized method '$method()'");
     }
 
+    /**
+     * fetch all rows in a 3d array
+     *
+     * @return array
+     */
+
     public function fetchAllToArray()
     {
         $resultSet = $this->getMapper()->getDbTable()->fetchAll()->toArray();
         return $resultSet;
     }
+
+    /**
+     *  __set() is run when writing data to inaccessible properties
+     *  overloading it to support setting columns.
+     *  example: class->column_name='foo' or class->ColumnName='foo'
+     *           will execute the function class->setColumnName('foo')
+     *
+     * @param string $name
+     * @param mixed $value
+     * 
+     */
 
     public function __set($name, $value)
     {
@@ -94,6 +124,17 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
                 $this->$method($value);
     }
 
+    /**
+     *  __get() is utilized for reading data from inaccessible properties
+     *  overloading it to support getting columns value.
+     *  example: $foo=class->column_name or $foo=class->ColumnName
+     *           will execute the function $foo=class->getColumnName()
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     */
+     
     public function __get($name)
     {
         $name=explode('_',$name);
@@ -121,11 +162,27 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this;
     }
 
+    /**
+     * sets the mapper class
+     *
+     * @param <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper $mapper
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
+     
+     */
+
     public function setMapper($mapper)
     {
         $this->_mapper = $mapper;
         return $this;
     }
+
+
+    /**
+     * returns the mapper class
+     *
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper
+     *
+     */
 
     public function getMapper()
     {
@@ -135,31 +192,75 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this->_mapper;
     }
 
+    /**
+     * saves current loaded row
+     *
+     */
+
     public function save()
     {
         $this->getMapper()->save($this);
     }
 
+    /**
+     * finds row by id
+     *
+     * @param <?=$this->_primaryKey['phptype']?> $id
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
+
+     *
+     */
     public function find($id)
     {
         $this->getMapper()->find($id, $this);
         return $this;
     }
 
+    /**
+     * fetchs all row 
+     * returns an array of <?=$this->_namespace?>_Model_<?=$this->_className?>
+
+     *
+     * @return array
+     *
+     */
     public function fetchAll()
     {
         return $this->getMapper()->fetchAll();
     }
 
+    /**
+     * fetchs all rows 
+     * optionally filtered by where, order, count and offset
+     * returns an array of <?=$this->_namespace?>_Model_<?=$this->_className?>
+
+     *
+     * @return array
+     * 
+     */
     public function fetchList($where=null, $order=null, $count=null, $offset=null)
     {
         return $this->getMapper()->fetchList($where, $order, $count, $offset);
     }
 
+    /**
+     * fetchs all rows
+     * optionally filtered by where, order, count and offset
+     * returns a 3d-array of the result
+     *
+     * @return array
+     *
+     */
     public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
     {
         return $this->getMapper()->fetchListToArray($where, $order, $count, $offset);
     }
+
+    /**
+     * deletes current row by deleting a row that matches the primary key
+     * 
+     * @return int
+     */
 
     public function deleteRowByPrimaryKey()
     {
@@ -168,6 +269,12 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.$this->get<?=$this->_primaryKey['capital']?>());
     }
 
+    /**
+     * deletes current row by a where satetement
+     * 
+     * @param string $where
+     * @return int
+     */
     public function delete($where)
     {
         return $this->getMapper()->getDbTable()->delete($where);
