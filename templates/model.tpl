@@ -62,6 +62,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
     /**
      * Recognize methods for Belongs-To cases:
      * findBy<field>()
+     * findOneBy<field>()
      * Use the non-greedy pattern repeat modifier e.g. \w+?
      *
      * @param string $method
@@ -71,17 +72,19 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
     public function __call($method, array $args)
     {
         $matches = array();
-
-        if (preg_match('/^findBy(\w+)?$/', $method, $matches)) {
+        $result=null;
+        if (preg_match('/^find(One)?By(\w+)?$/', $method, $matches)) {
                 $methods = get_class_methods($this);
-                $check = 'set'.$matches[1];
+                $check = 'set'.$matches[2];
 
                 if (!in_array($check, $methods)) {
-                        throw new Exception("Invalid field {$matches[1]} requested for table");
+                        throw new Exception("Invalid field {$matches[2]} requested for table");
                 }
-
-                $this->getMapper()->findByField($matches[1], $args[0], $this);
-                return $this;
+                if ($matches[1] != '') {
+                    $result=$this->getMapper()->findOneByField($matches[2], $args[0], $this);
+                }
+                    else $result=$this->getMapper()->findByField($matches[2], $args[0], $this);
+                return $result;
         }
 
         throw new Exception("Unrecognized method '$method()'");
@@ -192,6 +195,16 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this->_mapper;
     }
 
+
+    /**
+     * returns an array, keys are the field names.
+     *
+     * @return array
+     */
+    public function toArray() {
+        return $this->getMapper()->toArray($this);
+    }
+
     /**
      * saves current loaded row
      *
@@ -266,7 +279,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
     {
         if (!$this->get<?=$this->_primaryKey['capital']?>())
             throw new Exception('Primary Key does not contain a value');
-        return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey?> = '.$this->get<?=$this->_primaryKey['capital']?>());
+        return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey['field']?> = '.$this->get<?=$this->_primaryKey['capital']?>());
     }
 
     /**

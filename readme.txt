@@ -18,8 +18,10 @@ REQUIREMENTS
 USAGE
 -----
 
+class::toArray() - returns an array, keys are the column names
 class::fetchAll() - fetch all rows
-class::findBy<field>($value) - find by field, where value eq $value.
+class::findOneBy<field>($value) - find a row where the field eq $value
+class::findBy<field>($value) - find an array 
 class::find($id) - find a row by primary key
 class::fetchList($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offset.
 class::fetchListToArray($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offset.
@@ -62,24 +64,29 @@ $db = new Zend_Db_Adapter_Mysqli(array(
 
 Zend_Db_Table::setDefaultAdapter($db);
 
-/******************************************/
-
-/* example 1 - fetch all rows to an array */
-
 $users = new Default_Model_Users();
-$rows=$users->fetchAllToArray();
-var_dump($rows);
 
-/* end of example 1 */
+// example 1: fetchs an array of Default_Model_Users filtered by username eq 'admin'. 
 
-/* example 2 - find a row by primary key and set column 'first_name'  to the name 'foo'. */
+$data=$users->fetchList('username = \'admin\'',null,1);
+var_dump($data[0]->toArray());
 
-$users = new Default_Model_Users();
-$users->find(1);
-$users->setFirstName('foo');
+// fetchs one row where username eq 'admin'
+$users->findOneByUsername('admin');
+var_dump($users->toArray());
+
+// fetches all rows where username eq 'admin'
+$data=$users->findByUsername('admin');
+var_dump($data[0]->toArray());
+
+// finds a row where username eq 'admin' and saves it
+$users->findOneByUsername('admin');
+$users->setUsername('root');
 $users->save();
 
-/* end of example 2 */
+// finds a row by primary key 1 and delete it
+$users->find(1);
+$users->deleteRowByPrimaryKey();
 
 ?>
 

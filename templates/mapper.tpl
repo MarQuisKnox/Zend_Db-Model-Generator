@@ -27,8 +27,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      * @param string $field
      * @param mixed $value
      * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
-     */
-    public function findByField($field, $value, $cls)
+     */     
+    public function findOneByField($field, $value, $cls)
     {
             $table = $this->getDbTable();
             $select = $table->select();
@@ -39,6 +39,47 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             }
 
             $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+    }
+
+
+    /**
+     * returns an array, keys are the field names.
+     *
+     * @param new <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @return array
+     *
+     */
+    public function toArray($cls) {
+        $result = array(
+        
+            <?foreach ($this->_columns as $column):?>'<?=$column['field']?>' => $cls->get<?=$column['capital']?>(),
+            <?endforeach;?>
+        
+        );
+        return $result;
+    }
+
+    /**
+     * finds rows where $field equals $value
+     *
+     * @param string $field
+     * @param mixed $value
+     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @return array
+     */
+    public function findByField($field, $value, $cls)
+    {
+            $table = $this->getDbTable();
+            $select = $table->select();
+            $result = array();
+
+            $rows = $table->fetchAll($select->where("{$field} = ?", $value));
+            foreach ($rows as $row) {
+                    $cls=new <?=$this->_namespace?>_Model_<?=$this->_className?>();
+                    $result[]=$cls;
+                    $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+            }
+            return $result;
     }
     
     /**
@@ -83,18 +124,14 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      
     public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
     {
-        $data = array(
-  	<?foreach ($this->_columns as $column):?>
-            <?=$column['field']?> => $cls->get<?=$column['capital']?>(),
-	<?endforeach;?>
-        );
+        $data = $cls->toArray();
 
        if (null === ($id = $cls->get<?=$this->_primaryKey['capital']?>())) {
-            unset($data['<?=$this->_primaryKey?>']);
+            unset($data['<?=$this->_primaryKey['field']?>']);
             $id=$this->getDbTable()->insert($data);
             $cls->set<?=$this->_primaryKey['capital']?>($id);
         } else {
-            $this->getDbTable()->update($data, array('<?=$this->_primaryKey?> = ?' => $id));
+            $this->getDbTable()->update($data, array('<?=$this->_primaryKey['field']?> = ?' => $id));
         }
     }
 
