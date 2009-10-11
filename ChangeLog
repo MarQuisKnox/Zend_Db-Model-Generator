@@ -1,3 +1,35 @@
+2009-10-11 19:51  kfirufk@gmail.com
+
+	* readme.txt, templates/mapper.tpl, templates/model.tpl,
+	  zend-db-model-generator.php: updated readme.txt with new examples
+	  fixed save function
+	  findBy<value>(field) now returns an array of instances of the
+	  model class
+	  findOneBy<value>(field) fetchs one row,sets the current class
+	  with the data it fetched (field=value)
+	  toArray() function: returns an array of (column names=>fields)
+
+2009-10-10 14:25  kfirufk
+
+	* doc, doc/blank.html, doc/classtrees_default.html, doc/default,
+	  doc/default/MakeDbTable.html,
+	  doc/default/_data---MakeDbTable.php.html,
+	  doc/default/_data---config.php.html,
+	  doc/default/_zend-db-model-generator.php.html,
+	  doc/elementindex.html, doc/elementindex_default.html,
+	  doc/errors.html, doc/index.html, doc/li_default.html, doc/media,
+	  doc/media/banner.css, doc/media/stylesheet.css,
+	  doc/packages.html: new doc directory, now version is ready
+
+2009-10-10 14:24  kfirufk
+
+	* doc: removed doc directory
+
+2009-10-10 14:22  kfirufk
+
+	* ChangeLog, readme.txt: updated readme.txt and Changelog, version
+	  0.3 is ready
+
 2009-10-10 14:20  kfirufk@gmail.com
 
 	* TODO, data/config.php-default, templates/mapper.tpl,
