@@ -64,6 +64,17 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this->_columnsList[$column];
     }
 
+    /**
+     * converts database column name to php setter/getter function name
+     * @param string $column
+     */
+    protected function varName2Column($thevar) {
+
+        foreach ($this->_columnsList as $column=>$var)
+            if ($var == $thevar)
+                    return $column;
+        return null;
+    }
 	
     <?foreach ($this->_columns as $column):?>
 
@@ -114,13 +125,15 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
                 $methods = get_class_methods($this);
                 $check = 'set'.$matches[2];
 
+                $fieldName=$this->varName2Column($matches[2]);
+
                 if (!in_array($check, $methods)) {
                         throw new Exception("Invalid field {$matches[2]} requested for table");
                 }
                 if ($matches[1] != '') {
-                    $result=$this->getMapper()->findOneByField($matches[2], $args[0], $this);
+                    $result=$this->getMapper()->findOneByField($fieldName, $args[0], $this);
                 }
-                    else $result=$this->getMapper()->findByField($matches[2], $args[0], $this);
+                    else $result=$this->getMapper()->findByField($fieldName, $args[0], $this);
                 return $result;
         }
 
