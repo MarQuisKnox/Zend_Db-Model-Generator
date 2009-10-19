@@ -1,3 +1,20 @@
+2009-10-19 12:39  kfirufk
+
+	* data, readme.txt, templates/dbtable.tpl, templates/model.tpl,
+	  zend-db-model-generator.php: added the functions:
+	  getPrimaryKeyName,countAllRows,countByQuery.
+	  now the model class contains an array that holds the column names
+	  and their corresponding setters/getters function name.
+
+2009-10-11 19:54  kfirufk
+
+	* ChangeLog, doc/classtrees_default.html,
+	  doc/default/MakeDbTable.html,
+	  doc/default/_data---MakeDbTable.php.html,
+	  doc/default/_data---config.php.html,
+	  doc/default/_zend-db-model-generator.php.html, doc/errors.html,
+	  doc/index.html: updated doc directory, version 0.3.1 is ready
+
 2009-10-11 19:51  kfirufk@gmail.com
 
 	* readme.txt, templates/mapper.tpl, templates/model.tpl,
@@ -11,19 +28,20 @@
 
 2009-10-10 14:25  kfirufk
 
-	* doc, doc/blank.html, doc/classtrees_default.html, doc/default,
-	  doc/default/MakeDbTable.html,
-	  doc/default/_data---MakeDbTable.php.html,
-	  doc/default/_data---config.php.html,
-	  doc/default/_zend-db-model-generator.php.html,
-	  doc/elementindex.html, doc/elementindex_default.html,
-	  doc/errors.html, doc/index.html, doc/li_default.html, doc/media,
-	  doc/media/banner.css, doc/media/stylesheet.css,
-	  doc/packages.html: new doc directory, now version is ready
+	* doc[ADD], doc/blank.html[ADD], doc/classtrees_default.html[ADD],
+	  doc/default[ADD], doc/default/MakeDbTable.html[ADD],
+	  doc/default/_data---MakeDbTable.php.html[ADD],
+	  doc/default/_data---config.php.html[ADD],
+	  doc/default/_zend-db-model-generator.php.html[ADD],
+	  doc/elementindex.html[ADD], doc/elementindex_default.html[ADD],
+	  doc/errors.html[ADD], doc/index.html[ADD],
+	  doc/li_default.html[ADD], doc/media[ADD],
+	  doc/media/banner.css[ADD], doc/media/stylesheet.css[ADD],
+	  doc/packages.html[ADD]: new doc directory, now version is ready
 
 2009-10-10 14:24  kfirufk
 
-	* doc: removed doc directory
+	* doc[DEL]: removed doc directory
 
 2009-10-10 14:22  kfirufk
 
@@ -53,20 +71,21 @@
 
 2009-10-06 11:22  kfirufk
 
-	* data/MakeDbTable.php, doc, doc/blank.html,
-	  doc/classtrees_default.html, doc/default,
-	  doc/default/MakeDbTable.html,
-	  doc/default/_data---MakeDbTable.php.html,
-	  doc/default/_zend-db-model-generator.php.html,
-	  doc/elementindex.html, doc/elementindex_default.html,
-	  doc/errors.html, doc/index.html, doc/li_default.html, doc/media,
-	  doc/media/banner.css, doc/media/stylesheet.css,
-	  doc/packages.html: removed Zend_Config_Ini from include.
+	* data/MakeDbTable.php, doc[ADD], doc/blank.html[ADD],
+	  doc/classtrees_default.html[ADD], doc/default[ADD],
+	  doc/default/MakeDbTable.html[ADD],
+	  doc/default/_data---MakeDbTable.php.html[ADD],
+	  doc/default/_zend-db-model-generator.php.html[ADD],
+	  doc/elementindex.html[ADD], doc/elementindex_default.html[ADD],
+	  doc/errors.html[ADD], doc/index.html[ADD],
+	  doc/li_default.html[ADD], doc/media[ADD],
+	  doc/media/banner.css[ADD], doc/media/stylesheet.css[ADD],
+	  doc/packages.html[ADD]: removed Zend_Config_Ini from include.
 	  regenreated doc directory. now closing v0.2.3.
 
 2009-10-06 11:19  kfirufk
 
-	* data/MakeDbTable.php, data/config.php-default, doc,
+	* data/MakeDbTable.php, data/config.php-default, doc[DEL],
 	  templates/dbtable.tpl, templates/mapper.tpl, templates/model.tpl:
 	  version 0.2.3:
 	  templates follow ZF coding standards
@@ -112,18 +131,20 @@
 
 2009-10-03 22:31  kfirufk
 
-	* TODO, data, data/MakeDbTable.php, data/config.php-default, doc,
-	  doc/blank.html, doc/classtrees_default.html, doc/default,
-	  doc/default/MakeDbTable.html,
-	  doc/default/_data---MakeDbTable.php.html,
-	  doc/default/_data---config.php.html,
-	  doc/default/_zend-db-model-generator.php.html,
-	  doc/elementindex.html, doc/elementindex_default.html,
-	  doc/errors.html, doc/index.html, doc/li_default.html, doc/media,
-	  doc/media/banner.css, doc/media/stylesheet.css,
-	  doc/packages.html, readme.txt, templates, templates/dbtable.tpl,
-	  templates/mapper.tpl, templates/model.tpl,
-	  zend-db-model-generator.php: zdmg v0.2:
+	* TODO, data[ADD], data/MakeDbTable.php[ADD],
+	  data/config.php-default[ADD], doc[ADD], doc/blank.html[ADD],
+	  doc/classtrees_default.html[ADD], doc/default[ADD],
+	  doc/default/MakeDbTable.html[ADD],
+	  doc/default/_data---MakeDbTable.php.html[ADD],
+	  doc/default/_data---config.php.html[ADD],
+	  doc/default/_zend-db-model-generator.php.html[ADD],
+	  doc/elementindex.html[ADD], doc/elementindex_default.html[ADD],
+	  doc/errors.html[ADD], doc/index.html[ADD],
+	  doc/li_default.html[ADD], doc/media[ADD],
+	  doc/media/banner.css[ADD], doc/media/stylesheet.css[ADD],
+	  doc/packages.html[ADD], readme.txt, templates[ADD],
+	  templates/dbtable.tpl[ADD], templates/mapper.tpl[ADD],
+	  templates/model.tpl[ADD], zend-db-model-generator.php: zdmg v0.2:
 	  rewrote most of the code.
 	  added phpdoc to the main class file.
 	  seperated the script to several files, now the code is cleaner
@@ -230,7 +251,7 @@
 
 2009-08-22 22:56  kfirufk
 
-	* ChangeLog: add changelog file
+	* ChangeLog[ADD]: add changelog file
 
 2009-08-22 22:53  kfirufk
 
@@ -266,7 +287,7 @@
 
 2009-07-22 11:56  kfirufk
 
-	* TODO: added TODO file.
+	* TODO[ADD]: added TODO file.
 
 2009-07-07 08:53  kfirufk
 
@@ -274,9 +295,9 @@
 
 2009-07-02 11:45  kfirufk
 
-	* readme.txt, zend-db-model-generator.php: version 0.1
+	* readme.txt[ADD], zend-db-model-generator.php[ADD]: version 0.1
 
 2009-07-02 11:39  
 
-	* .: Initial directory structure.
+	* .[ADD]: Initial directory structure.
 
