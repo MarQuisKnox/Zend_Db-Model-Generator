@@ -1,6 +1,6 @@
 <?php
 
-define('VERSION',         '0.3.3');
+define('VERSION',         '0.3.3.1');
 define('AUTHOR',          'Kfir Ozer <kfirufk@gmail.com>');
 
 
