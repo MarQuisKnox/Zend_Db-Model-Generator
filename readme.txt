@@ -33,6 +33,9 @@ class::fetchAllToArray() - returns all the rows of the table in an array
 
 class::deleteRowByPrimaryKey() - in general it's used to delete the current loaded row
 class::delete($where)   - delete rows in the table by $where
+class::countAllRows() -  counts all rows
+class::getPrimaryKeyName() - returns the name of the primary key column
+class::countByQuery($where='') - count query results
 
 Example:
 

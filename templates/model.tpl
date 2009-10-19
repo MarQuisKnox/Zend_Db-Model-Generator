@@ -27,6 +27,43 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
 <?endforeach;?>
 
     protected $_mapper;
+
+    protected $_columnsList=array(
+<?foreach ($this->_columns as $column):?>
+    '<?=$column['field']?>'=>'<?=$column['capital']?>',
+<?endforeach;?>
+    );
+
+    /**
+     *
+     * @param array $data
+     * @return Default_Model_
+     */
+
+    public function setColumnsList($data) {
+        $this->_columnsList=$data;
+        return $this;
+    }
+
+    /**
+     * returns columns list array
+     *
+     * @return array
+     */
+    public function getColumnsList() {
+        return $this->_columnsList;
+    }
+
+    /**
+     * converts database column name to php setter/getter function name
+     * @param string $column
+     */
+    protected function columnName2Var($column) {
+        if (!isset($this->_columnsList[$column]))
+            throw new Exception("column '$column' not found!");
+        return $this->_columnsList[$column];
+    }
+
 	
     <?foreach ($this->_columns as $column):?>
 
@@ -115,10 +152,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
 
     public function __set($name, $value)
     {
-       $name=explode('_',$name);
-        foreach ($name as &$n)
-       $n=ucfirst($n);
-       $name=implode('',$name);
+       $name=$this->columnName2var($name);
 
                 $method = 'set'.$name;
                 if (('mapper' == $name) || !method_exists($this, $method)) {
@@ -140,10 +174,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
      
     public function __get($name)
     {
-        $name=explode('_',$name);
-        foreach ($name as &$n)
-           $n=ucfirst($n);
-        $name=implode('',$name);
+        $this->columnName2Var($name);
 
         $method = 'get'.$name;
         if (('mapper' == $name) || !method_exists($this, $method)) {
@@ -293,5 +324,25 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
         return $this->getMapper()->getDbTable()->delete($where);
     }
 
+    /**
+     * returns the number of rows in the table
+     * @var int
+     */
+    public function countAllRows() {
+        return $this->getMapper()->getDbTable()->countAllRows();
+    }
+        /**
+         * returns the primary key column name
+         *
+         * @var string
+         */
+        public function getPrimaryKeyName() {
+            return $this->getMapper()->getDbTable()->countAllRows();
+        }
+
+    
+     public function countByQuery($where='') {
+        return $this->getMapper()->getDbTable()->countByQuery($where);
+     }
 }
 

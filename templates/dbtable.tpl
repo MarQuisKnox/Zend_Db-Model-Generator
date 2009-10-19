@@ -30,6 +30,37 @@ class <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> extends Zend_D
          */
 	protected $_id='<?=$this->_primaryKey['field']?>';
 
+        /**
+         * returns the primary key column name
+         *
+         * @var string 
+         */
+        public function getPrimaryKeyName() {
+            return $this->_id;
+        }
+
+    /**
+     * returns the number of rows in the table
+     * @var int
+     */
+        public function countAllRows() {
+            $query = $this->select()->from($this->_name, 'count(*) as all_count');
+            $numRows = $this->fetchRow($query);
+            return $numRows['all_count'];
+        }
+    
+        public function countByQuery($where='') {
+
+            if ($where)
+                $where='where '.$where;
+
+            $query = <<<SQL
+                select count(*) as all_count from {$this->_name} $where
+SQL;
+            $row=$this->getAdapter()->query($query)->fetch();
+
+            return $row['all_count'];
+        }
 }
 
 
