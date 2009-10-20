@@ -58,7 +58,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
      * converts database column name to php setter/getter function name
      * @param string $column
      */
-    protected function columnName2Var($column) {
+    public function columnName2Var($column) {
         if (!isset($this->_columnsList[$column]))
             throw new Exception("column '$column' not found!");
         return $this->_columnsList[$column];
@@ -68,7 +68,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
      * converts database column name to php setter/getter function name
      * @param string $column
      */
-    protected function varName2Column($thevar) {
+    public function varName2Column($thevar) {
 
         foreach ($this->_columnsList as $column=>$var)
             if ($var == $thevar)
