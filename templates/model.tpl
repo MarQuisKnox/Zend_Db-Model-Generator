@@ -187,7 +187,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>
      
     public function __get($name)
     {
-        $this->columnName2Var($name);
+        $name=$this->columnName2Var($name);
 
         $method = 'get'.$name;
         if (('mapper' == $name) || !method_exists($this, $method)) {
