@@ -39,6 +39,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             }
 
             $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+	    return $cls;
     }
 
 
