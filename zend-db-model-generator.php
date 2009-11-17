@@ -1,11 +1,14 @@
 <?php
 
-define('VERSION',         '0.3.3.1');
+define('VERSION',         '0.3.3.2');
 define('AUTHOR',          'Kfir Ozer <kfirufk@gmail.com>');
 
 
 require_once('data/MakeDbTable.php');
 require_once('data/config.php');
+
+if (!ini_get('short_open_tag'))
+	die('please enable short_open_tag directive in php.ini');
 
 if (count($argv) < 3) 
 	die("usage: ".basename(__FILE__)." <dbname> <tbname> <namespace[=Default]>\nBy: ".AUTHOR." Version: ".VERSION."\n");

@@ -1,3 +1,31 @@
+2009-11-11 02:23 kfirufk@gmail.com
+
+	* templates/model.tpl: findOneBy<Field> returns the created class
+
+2009-10-21 21:49  kfirufk@gmail.com
+
+	* templates/model.tpl: fixed bug in _get
+
+2009-10-20 14:19  kfirufk@gmail.com
+
+	* templates/model.tpl: columnName2var and varName2Column are now
+	  public so the user can use these functions as well
+
+2009-10-19 14:40  kfirufk
+
+	* zend-db-model-generator.php: changed version to 0.3.3.1
+
+2009-10-19 14:38  kfirufk
+
+	* templates/model.tpl: added varName2Column function and with it
+	  fixed findBy<field> and findOneBy<field> functions to work with
+	  fields like foo_bar or FooBar
+
+2009-10-19 12:43  kfirufk
+
+	* ChangeLog: fixed changelog. i needed to execute svn2cl with -a
+	  parameter. version 0.3.3 is ready
+
 2009-10-19 12:39  kfirufk
 
 	* data, readme.txt, templates/dbtable.tpl, templates/model.tpl,
