@@ -11,7 +11,7 @@ if (!ini_get('short_open_tag'))
 	die('please enable short_open_tag directive in php.ini');
 
 if (count($argv) < 3) 
-	die("usage: ".basename(__FILE__)." <dbname> <tbname> <namespace[=Default]>\nBy: ".AUTHOR." Version: ".VERSION."\n");
+	die("usage: ".basename(__FILE__)." <dbname> <tbname or --all for all tables in db> <namespace[=Default]>\nBy: ".AUTHOR." Version: ".VERSION."\n");
 
 $dbname=$argv[1];
 $tbname=$argv[2];
@@ -22,6 +22,10 @@ if (isset($argv[3])) {
 
 $cls = new MakeDbTable($config,$dbname,$tbname,$namespace);
 
-$cls->DoItAll();
+if ($tbname != '--all')
+    $cls->DoItAll();
+else {
+    $cls->getTablesFromDb();
+}
 echo "done!\n";
 

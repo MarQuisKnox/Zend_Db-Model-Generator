@@ -8,6 +8,12 @@ class MakeDbTable {
          *  @var String $_tbname;
          */
         protected $_tbname;
+    
+	/**
+         *
+         *  @var String $_dbname;
+         */
+        protected $_dbname;
 
          /**
           *  @var PDO $_pdo;
@@ -62,6 +68,7 @@ class MakeDbTable {
 	protected $_copyright;
 
 
+
 	/**
          *
          *  removes underscores and capital the letter that was after the underscore
@@ -79,6 +86,15 @@ class MakeDbTable {
 
 	}
 
+
+        public function getTablesFromDb() {
+
+            $res=$this->_pdo->query('show tables');
+            die(var_export($res,1));
+            
+
+        }
+
         /**
          * converts MySQL data types to PHP data types
          *
@@ -93,43 +109,8 @@ class MakeDbTable {
 
         }
 
-	/**
-         *
-         *  the class constructor
-         *
-         * @param Array $config
-         * @param String $dbname
-         * @param String $tbname
-         * @param String $namespace
-         */
-        function __construct($config,$dbname,$tbname,$namespace) {
-
-		$columns=array();
-		$primaryKey=array();
-
-
-                $this->_config=$config;
-                $this->_addRequire=$config['include.addrequire'];
-
-		$pdo = new PDO(
-		    "{$this->_config['db.type']}:host={$this->_config['db.host']};dbname=$dbname",
-		    $this->_config['db.user'],
-		    $this->_config['db.password']
-		);
-
-		$this->_pdo=$pdo;
-		$this->_tbname=$tbname;
-		$this->_namespace=$namespace;
-
-                //docs section
-                $this->_author=$this->_config['docs.author'];
-                $this->_license=$this->_config['docs.license'];
-                $this->_copyright=$this->_config['docs.copyright'];
-
-
-		$this->_className=$this->_getCapital($tbname);
-
-                $pdo->query("SET NAMES UTF8");
+    public function parseTable($tbname) {
+        $this->_pdo->query("SET NAMES UTF8");
 
                 $qry=$pdo->query("describe $tbname");
 
@@ -160,10 +141,47 @@ class MakeDbTable {
 			throw new Exception("found more then one primary key! probably a bug: ".join(", ",$primaryKey));
 		}
 
-		$this->_primaryKey=$primaryKey[0];
+		$primaryKey=$primaryKey[0];
 
-		$this->_columns=$columns;
+		$columns=$columns;
+    }
+	/**
+         *
+         *  the class constructor
+         *
+         * @param Array $config
+         * @param String $dbname
+         * @param String $tbname
+         * @param String $namespace
+         */
+        function __construct($config,$dbname,$namespace) {
 
+		$columns=array();
+		$primaryKey=array();
+
+
+                $this->_config=$config;
+                $this->_addRequire=$config['include.addrequire'];
+
+		$pdo = new PDO(
+		    "{$this->_config['db.type']}:host={$this->_config['db.host']};dbname=$dbname",
+		    $this->_config['db.user'],
+		    $this->_config['db.password']
+		);
+
+		$this->_pdo=$pdo;
+		$this->_tbname=$tbname;
+		$this->_namespace=$namespace;
+
+                //docs section
+                $this->_author=$this->_config['docs.author'];
+                $this->_license=$this->_config['docs.license'];
+                $this->_copyright=$this->_config['docs.copyright'];
+
+
+		$this->_className=$this->_getCapital($tbname);
+
+                
 	}
 
 	/**
@@ -173,9 +191,12 @@ class MakeDbTable {
          */
 
         public function createNeededDirectories() {
-            if (!is_dir($this->_tbname.DIRECTORY_SEPARATOR.'DbTable'))
-		if (!@mkdir ($this->_tbname.DIRECTORY_SEPARATOR.'DbTable',0755,true))
-			die("ERROR: could not create directory {$this->_tbname}.");
+
+            $dir = (($this->_tbname == '--all') ? $this->_dbname : $this->_tbname).DIRECTORY_SEPARATOR.'DbTable';
+
+            if (!is_dir($dir))
+		if (!@mkdir ($dir,0755,true))
+			die("ERROR: could not create directory $dir.");
             return true;
 
         }
