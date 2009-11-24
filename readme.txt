@@ -98,7 +98,8 @@ $users->deleteRowByPrimaryKey();
 THANKS
 ------
 I want to thank the following people for their feedback/patches/comments:
-Charles Spraggs,Richard Hamilton,AJIT DIXIT,Aleksandar Scepanovic
+Charles Spraggs,Richard Hamilton,AJIT DIXIT,Aleksandar Scepanovic,Ivan
+Mosquera Paulo
 
 
 Changelog is created by svn2cl (http://arthurdejong.org/svn2cl).
