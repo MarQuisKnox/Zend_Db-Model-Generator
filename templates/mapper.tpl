@@ -123,15 +123,29 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      *
      */
      
-    public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
+    public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls,$ignoreEmptyValuesOnUpdate=true)
     {
-        $data = $cls->toArray();
+        if ($ignoreEmptyValuesOnUpdate) {
+            $data = $cls->toArray();
+            foreach ($data as $key=>$value) {
+                if (is_null($value) or $value == '')
+                    unset($data[$key]);
+            }
+        }
 
-       if (null === ($id = $cls->get<?=$this->_primaryKey['capital']?>())) {
+        if (null === ($id = $cls->get<?=$this->_primaryKey['capital']?>())) {
             unset($data['<?=$this->_primaryKey['field']?>']);
             $id=$this->getDbTable()->insert($data);
             $cls->set<?=$this->_primaryKey['capital']?>($id);
         } else {
+            if ($ignoreEmptyValuesOnUpdate) {
+             $data = $cls->toArray();
+             foreach ($data as $key=>$value) {
+                if (is_null($value) or $value == '')
+                    unset($data[$key]);
+                }
+            }
+
             $this->getDbTable()->update($data, array('<?=$this->_primaryKey['field']?> = ?' => $id));
         }
     }
@@ -196,21 +210,6 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
                     $entries[] = $entry;
             }
             return $entries;
-    }
-
-    /**
-     * fetches all rows optionally filtered by where,order,count and offset
-     *
-     * @param string $where
-     * @param string $order
-     * @param int $count
-     * @param int $offset
-     *
-     */
-    public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
-    {
-            $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset)->toArray();
-            return $resultSet;
     }
 
 }

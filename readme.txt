@@ -6,14 +6,26 @@ Instructions:
 1. copy config.php-default to config.php inside data directory
 2. edit config.php and configure your db and other relevant directives.
 3. execute it.
-   usage: zend-db-model-generator.php <dbname> <tbname> [<namespace>=Default]
+
+parameters:
+    --database            : database name (required option)
+    --location            : specify where to create the files (default is current directory)
+    --namespace           : override config file's default namespace
+ *  --table               : table name (parameter can be used more then once)
+    --all-tables          : create classes for all the scripts in the database
+ *  --ignore-table        : not to create a class for a specific table
+ *  --ignore-tables-regex : ignore tables by perl regular expression
+ *  --tables-regex        : add tables by perl regular expression
+
+                    parameters with * can be used more then once.
    
-For comments/suggestions please e-mail,msn,google talk me at kfirufk@gmail.com.
+For comments/suggestions please e-mail,msn,google talk, google wave me at kfirufk@gmail.com.
 
 REQUIREMENTS 
 ------------
 
 1. the PDO extension to be enabled
+
 
 USAGE
 -----
@@ -26,7 +38,7 @@ class::find($id) - find a row by primary key
 class::fetchList($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offset.
 class::fetchListToArray($where=null, $order=null, $count=null, $offset=null) - fetch all , filtered by where, order, count and offset.
                                                                                returns each row in an array instead of an instance of the class.
-class::save() - save the current row
+class::save($ignoreEmptyValuesOnUpdate=true) - save the current row
 class::set<field>($value) - sets a field with a value
 class::get<field>() - get a field's value
 class::fetchAllToArray() - returns all the rows of the table in an array
@@ -91,6 +103,11 @@ $users->save();
 $users->find(1);
 $users->deleteRowByPrimaryKey();
 
+// update user in row 9
+$users->find(9);
+$users->setUsername('newuser');
+$users->save();
+
 ?>
 
 ==== end of example.php ==
@@ -100,6 +117,5 @@ THANKS
 I want to thank the following people for their feedback/patches/comments:
 Charles Spraggs,Richard Hamilton,AJIT DIXIT,Aleksandar Scepanovic,Ivan
 Mosquera Paulo
-
 
 Changelog is created by svn2cl (http://arthurdejong.org/svn2cl).

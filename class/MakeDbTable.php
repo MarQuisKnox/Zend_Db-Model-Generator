@@ -67,7 +67,29 @@ class MakeDbTable {
           */
 	protected $_copyright;
 
+        /**
+         *
+         * @var String $_location;
+         */
+        protected $_location;
 
+
+        public function setLocation($location) {
+            $this->_location=$location;
+        }
+
+        public function getLocation() {
+            return $this->_location;
+        }
+
+        public function setTableName($table) {
+            $this->_tbname=$table;
+            $this->_className=$this->_getCapital($table);
+        }
+
+        public function getTableName() {
+            return $this->_tbname;
+        }
 
 	/**
          *
@@ -87,10 +109,14 @@ class MakeDbTable {
 	}
 
 
-        public function getTablesFromDb() {
+        public function getTablesNamesFromDb() {
 
-            $res=$this->_pdo->query('show tables');
-            die(var_export($res,1));
+            $res=$this->_pdo->query('show tables')->fetchAll();
+            $tables=array();
+            foreach ($res as $table)
+                $tables[]=$table[0];
+
+            return $tables;
             
 
         }
@@ -109,10 +135,11 @@ class MakeDbTable {
 
         }
 
-    public function parseTable($tbname) {
+    public function parseTable() {
+        $tbname=$this->getTableName();
         $this->_pdo->query("SET NAMES UTF8");
 
-                $qry=$pdo->query("describe $tbname");
+                $qry=$this->_pdo->query("describe $tbname");
 
 		if (!$qry)
 			throw new Exception("describe $tbname returned false!.");
@@ -140,10 +167,8 @@ class MakeDbTable {
 		else if (sizeof($primaryKey)>1) {
 			throw new Exception("found more then one primary key! probably a bug: ".join(", ",$primaryKey));
 		}
-
-		$primaryKey=$primaryKey[0];
-
-		$columns=$columns;
+                $this->_primaryKey=$primaryKey[0];
+		$this->_columns=$columns;
     }
 	/**
          *
@@ -151,7 +176,6 @@ class MakeDbTable {
          *
          * @param Array $config
          * @param String $dbname
-         * @param String $tbname
          * @param String $namespace
          */
         function __construct($config,$dbname,$namespace) {
@@ -170,7 +194,7 @@ class MakeDbTable {
 		);
 
 		$this->_pdo=$pdo;
-		$this->_tbname=$tbname;
+		//$this->_tbname=$tbname;
 		$this->_namespace=$namespace;
 
                 //docs section
@@ -179,27 +203,10 @@ class MakeDbTable {
                 $this->_copyright=$this->_config['docs.copyright'];
 
 
-		$this->_className=$this->_getCapital($tbname);
+		
 
                 
 	}
-
-	/**
-         * creates directory structure
-         *
-         * @return Boolean
-         */
-
-        public function createNeededDirectories() {
-
-            $dir = (($this->_tbname == '--all') ? $this->_dbname : $this->_tbname).DIRECTORY_SEPARATOR.'DbTable';
-
-            if (!is_dir($dir))
-		if (!@mkdir ($dir,0755,true))
-			die("ERROR: could not create directory $dir.");
-            return true;
-
-        }
 
         /**
          *
@@ -222,7 +229,7 @@ class MakeDbTable {
          */
         function makeDbTableFile() {
 
-            $dbTableFile=$this->_tbname.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+            $dbTableFile=$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
 
             $dbTableData=$this->getParsedTplContents('dbtable.tpl');
 
@@ -236,7 +243,7 @@ class MakeDbTable {
          */
         function makeMapperFile() {
 
-            $mapperFile=$this->_tbname.DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
+            $mapperFile=$this->getLocation().DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
 
             $mapperData=$this->getParsedTplContents('mapper.tpl');
 
@@ -249,7 +256,7 @@ class MakeDbTable {
          */
         function makeModelFile() {
 
-            $modelFile=$this->_tbname.DIRECTORY_SEPARATOR.$this->_className.'.php';
+            $modelFile=$this->getLocation().DIRECTORY_SEPARATOR.$this->_className.'.php';
 
             $modelData=$this->getParsedTplContents('model.tpl');
 
@@ -266,11 +273,16 @@ class MakeDbTable {
          */
         function doItAll() {
 
-        $this->createNeededDirectories();
-
         $this->makeDbTableFile();
         $this->makeMapperFile();
         $this->makeModelFile();
+
+        $templatesDir=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'templates').DIRECTORY_SEPARATOR;
+
+        if (!copy($templatesDir.'model_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'MainModel.php'))
+               die("could not copy model_class.tpl as MainModel.php");
+        if (!copy($templatesDir.'dbtable_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.'MainDbTable.php'))
+               die("could not copy dbtable_class.php as MainDbTable.php");
 
 	return true;
 
