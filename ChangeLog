@@ -4,7 +4,8 @@
 	     * support for listing and unlisting tables by their names
 	       or by regular expressions.
 	     * support to list all tables in a database
-	     * support for modifying a row without loading it first: 
+	     * support for modifying a row without loading it first
+	       (big thanks to Aleksandar Scepanovic): 
 	        <?php
 		   $foo = new Default_Model_Foo();
                    $foo->setId(5);
