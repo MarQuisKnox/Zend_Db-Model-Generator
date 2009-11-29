@@ -41,6 +41,8 @@ else {
     $dir=$params['--database'][0].DIRECTORY_SEPARATOR.'DbTable';
 }
 
+if (sizeof($tables) == 0)
+        die("error: please provide at least one table to parse.\n");
 if (!is_dir($dir))
     if (!@mkdir($dir,0755,true))
         die("error: could not create directory $dir");
