@@ -35,7 +35,7 @@ function __construct() {
     '<?=$column['field']?>'=>'<?=$column['capital']?>',
 <?endforeach;?>
     ));
-};
+}
 
 	
     <?foreach ($this->_columns as $column):?>
