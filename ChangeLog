@@ -1,3 +1,21 @@
+2009-11-30 00:56 kfirufk@gmail.com
+        * version 0.4 is complete!
+	  new command line parameters for the script 
+	     * support for listing and unlisting tables by their names
+	       or by regular expressions.
+	     * support to list all tables in a database
+	     * support for modifying a row without loading it first: 
+	        <?php
+		   $foo = new Default_Model_Foo();
+                   $foo->setId(5);
+		   $foo->setUsername('test');
+		   $foo->save();
+		// this example updates username field to test in row 5
+		?>
+             * support for specifying a location to store the created
+	       class files
+             * updated readme.txt
+
 2009-11-11 02:23 kfirufk@gmail.com
 
 	* templates/model.tpl: findOneBy<Field> returns the created class

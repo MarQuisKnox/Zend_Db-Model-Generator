@@ -24,7 +24,7 @@ For comments/suggestions please e-mail,msn,google talk, google wave me at kfiruf
 REQUIREMENTS 
 ------------
 
-1. the PDO extension to be enabled
+1. PDO extension
 
 
 USAGE
@@ -100,11 +100,11 @@ $users->setUsername('root');
 $users->save();
 
 // finds a row by primary key 1 and delete it
-$users->find(1);
+$users->setId(1);
 $users->deleteRowByPrimaryKey();
 
-// update user in row 9
-$users->find(9);
+// updates username in row 9
+$users->setId(9);
 $users->setUsername('newuser');
 $users->save();
 

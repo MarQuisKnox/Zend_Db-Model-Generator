@@ -13,11 +13,22 @@ require_once('MainDbTable.php');
 
 class <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> extends MainDbTable
 {
+        /**
+         * $_name - name of database table
+         *
+         * @var string
+         */
+	protected $_name='<?=$this->_tbname?>';
 
-    public function __construct() {
-        $this->_name='<?=$this->_tbname?>';
-        $this->_id='<?=$this->_primaryKey['field']?>';
-    }
+        /**
+         * $_id - this is the primary key name
+
+         *
+         * @var string
+
+         */
+	protected $_id='<?=$this->_primaryKey['field']?>';
+
 }
 
 
