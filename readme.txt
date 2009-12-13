@@ -24,8 +24,18 @@ For comments/suggestions please e-mail,msn,google talk, google wave me at kfiruf
 REQUIREMENTS 
 ------------
 
-1. PDO extension
+1. php-cli 5.2+
+2. PDO extension
+3. this script was only tested on mysql server. if it works on any other servers
+   please let me know.
 
+NOTICE
+------
+
+Since version 0.4, in order to prevent code duplication,
+common classes where seperated from the model class to MainModel.php
+and from the DbTable class to MainDbTable.php. these classes are already
+placed by the script in their appropriate places
 
 USAGE
 -----
@@ -48,6 +58,13 @@ class::delete($where)   - delete rows in the table by $where
 class::countAllRows() -  counts all rows
 class::getPrimaryKeyName() - returns the name of the primary key column
 class::countByQuery($where='') - count query results
+class::select2Paginator(Zend_Db_Select $select) - created a Zend_Paginator class by a given select
+class::fetchAll2Paginator()  - fetch all rows into a Zend_Paginator
+class::fetchListToPaginator($where=null, $order=null, $count=null, $offset=null) -
+                    fetchs all rows optionally filtered by where, order, count and offset
+class::getTableName() - returns the table name
+class::getSelect($withFromPart=true,$resetColumns=true,$resetOrder=true,$resetLimitOffset=true) - returns a Zend_Db_Table_select object
+class::query2Paginator($query) - creates a Zend_Paginator for a query string
 
 Example:
 
@@ -111,6 +128,8 @@ $users->save();
 ?>
 
 ==== end of example.php ==
+
+** more examples can be found in testzdmg directory.
 
 THANKS
 ------

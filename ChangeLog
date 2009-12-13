@@ -1,8 +1,30 @@
+
+        * version 0.5 RC1
+           - fixed fetchListToArray()
+           - paginator support.
+                   new functions:  select2Paginator,fetchAll2Paginator,
+                                                fetchListToPaginator
+           - started working on reference map for innodb tables, needs
+	   testing. the referencemap variable is appended to the appropriate
+	   class.
+	   - new testzdmg directory: a working project to demostrate 
+	     the usage of the classes that are created by this script.
+	     currently has 2 examples, need to add alot more in the future.
+	   
+
 2009-11-30 00:56 kfirufk@gmail.com
+        * version 0.4a
+	  * updated readme regarding the new model and dbtable 
+	    parent classes
+
         * version 0.4 is complete!
 	  new command line parameters for the script 
 	     * support for listing and unlisting tables by their names
 	       or by regular expressions.
+	     * common functions from model class where seperated to 
+	       a parent class MainModel
+	     * common functions from dbtable class where seperated to
+	       a parent class MainDbTable
 	     * support to list all tables in a database
 	     * support for modifying a row without loading it first
 	       (big thanks to Aleksandar Scepanovic): 

@@ -29,6 +29,8 @@ class <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> extends MainDb
          */
 	protected $_id='<?=$this->_primaryKey['field']?>';
 
+        <?=$referenceMap?>
+
 }
 
 

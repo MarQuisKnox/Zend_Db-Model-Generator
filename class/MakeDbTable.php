@@ -74,19 +74,58 @@ class MakeDbTable {
         protected $_location;
 
 
+        /**
+         *
+         * @var Array $foreignKeysInfo
+         */
+
+        protected $_foreignKeysInfo;
+
+        /**
+         *
+         * @param array $info
+         */
+        public function setForeignKeysInfo($info) {
+            $this->_foreignKeysInfo=$info;
+        }
+
+        /**
+         *
+         * @return array 
+         */
+        public function getForeignKeysInfo() {
+            return $this->_foreignKeysInfo;
+        }
+
+        /**
+         *
+         * @param string $location 
+         */
         public function setLocation($location) {
             $this->_location=$location;
         }
 
+        /**
+         *
+         * @return string
+         */
         public function getLocation() {
             return $this->_location;
         }
 
+        /**
+         *
+         * @param string $table 
+         */
         public function setTableName($table) {
             $this->_tbname=$table;
             $this->_className=$this->_getCapital($table);
         }
 
+        /**
+         *
+         * @return string
+         */
         public function getTableName() {
             return $this->_tbname;
         }
@@ -135,14 +174,56 @@ class MakeDbTable {
 
         }
 
-    public function parseTable() {
+    
+        public function parseTable() {
+            $this->parseForeignKeys();
+            $this->parseDescribeTable();
+            
+        }
+        public function parseForeignKeys() {
+        $result='';
+        $tbname=$this->getTableName();
+        $this->_pdo->query("SET NAMES UTF8");
+        $qry=$this->_pdo->query("show create table $tbname");
+
+        if (!$qry)
+            throw new Exception("`show create table $tbname` returned false!.");
+
+        $res=$qry->fetchAll();
+        if (!isset($res[0]['Create Table']))
+            throw new Exception("`show create table $tbname` did not provide known output");
+        
+        $query=$res[0]['Create Table'];
+        $lines=split("\n",$query);
+        $tblinfo=array();
+        $keys=array();
+        foreach ($lines as $line) {
+            preg_match('/^\s*CONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\)/',$line,$tblinfo);
+            if (sizeof($tblinfo)>0) {
+                $keys[]=array(
+                  'key_name'=>$tblinfo[1],
+                  'column_name'=>$tblinfo[2],
+                  'foreign_tbl_name'=>$tblinfo[3],
+                  'foreign_tbl_column_name'=>$tblinfo[4]
+                );
+            }
+
+        }
+        
+
+        $this->setForeignKeysInfo($keys);
+
+    }
+        
+        public function parseDescribeTable() {
+
         $tbname=$this->getTableName();
         $this->_pdo->query("SET NAMES UTF8");
 
                 $qry=$this->_pdo->query("describe $tbname");
 
 		if (!$qry)
-			throw new Exception("describe $tbname returned false!.");
+			throw new Exception("`describe $tbname` returned false!.");
 
 		$res=$qry->fetchAll();
 
@@ -216,7 +297,7 @@ class MakeDbTable {
          * @return String
          */
 
-        public function getParsedTplContents($tplFile) {
+        public function getParsedTplContents($tplFile,$referenceMap='') {
             ob_start();
                 require('templates'.DIRECTORY_SEPARATOR.$tplFile);
                 $data=ob_get_contents();
@@ -228,10 +309,28 @@ class MakeDbTable {
          * creats the DbTable class file
          */
         function makeDbTableFile() {
-
+            $referenceMap='';
             $dbTableFile=$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
 
-            $dbTableData=$this->getParsedTplContents('dbtable.tpl');
+            $foreignKeysInfo=$this->getForeignKeysInfo();
+            $references=array();
+            foreach ($foreignKeysInfo as $info) {
+                $refTableClass=$this->_getCapital($info['foreign_tbl_name']);
+                $key=$this->_getCapital($info['key_name']);
+                $references[]="
+                   '$key' => array(
+                       'columns' => '{$info['column_name']}',
+                       'refTableClass' => '{$refTableClass}',
+                       'refColumns' =>  '{$info['foreign_tbl_column_name']}'
+                           )";
+                if (sizeof($references)>0) {
+                    $referenceMap="protected \$_referenceMap    = array(\n".
+                    join(',',$references). "          \n                );";
+                }
+                
+            }
+
+            $dbTableData=$this->getParsedTplContents('dbtable.tpl',$referenceMap);
 
             if (!file_put_contents($dbTableFile,$dbTableData))
                     die("Error: could not write db table file $dbTableFile.");
