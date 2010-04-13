@@ -194,7 +194,7 @@ class MakeDbTable {
             throw new Exception("`show create table $tbname` did not provide known output");
         
         $query=$res[0]['Create Table'];
-        $lines=split("\n",$query);
+        $lines=explode("\n",$query);
         $tblinfo=array();
         $keys=array();
         foreach ($lines as $line) {

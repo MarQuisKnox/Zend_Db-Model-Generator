@@ -1,4 +1,7 @@
 <?php
+if (!is_file(dirname(__FILE__).'/config/config.php')) {
+	die("please copy config/config.php-default to config/config.php and modify.");
+}
 
 define('VERSION',         '0.5RC1');
 define('AUTHOR',          'Kfir Ozer <kfirufk@gmail.com>');
