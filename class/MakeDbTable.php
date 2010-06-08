@@ -226,7 +226,8 @@ class MakeDbTable {
 			throw new Exception("`describe $tbname` returned false!.");
 
 		$res=$qry->fetchAll();
-
+		$primaryKey=array();
+	
 		foreach ($res as $row) {
 			if ($row['Key'] == 'PRI')
 				$primaryKey[]=array(
