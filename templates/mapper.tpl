@@ -17,7 +17,6 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      * $_dbTable - instance of <?=$this->_namespace?>_Model_DbTable_<?=$this->_className."\n"?>
      *
      * @var <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
-     
      */
     protected $_dbTable;
 
@@ -106,7 +105,6 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      * returns the dbTable class
      * 
      * @return <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
-     
      */
     public function getDbTable()
     {
@@ -122,7 +120,6 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
      *
      */
-     
     public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls,$ignoreEmptyValuesOnUpdate=true)
     {
         if ($ignoreEmptyValuesOnUpdate) {
@@ -156,7 +153,6 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      * @param <?=$this->_primaryKey['phptype']?> $id
      * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
      */
-
     public function find($id, <?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
     {
         $result = $this->getDbTable()->find($id);
@@ -206,7 +202,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
                     $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
                     $entry<?foreach ($this->_columns as $column):?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
                           <? endforeach;?>
-->setMapper($this);
+                    ->setMapper($this);
                     $entries[] = $entry;
             }
             return $entries;

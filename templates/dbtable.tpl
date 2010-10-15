@@ -22,10 +22,8 @@ class <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> extends MainDb
 
         /**
          * $_id - this is the primary key name
-
          *
          * @var string
-
          */
 	protected $_id='<?=$this->_primaryKey['field']?>';
 
