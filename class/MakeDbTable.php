@@ -68,6 +68,40 @@ class MakeDbTable
 
     /**
      *
+     *  the class constructor
+     *
+     * @param Array $config
+     * @param String $dbname
+     * @param String $namespace
+     */
+    function __construct($config, $dbname, $namespace)
+    {
+
+        $columns = array();
+        $primaryKey = array();
+        $this->_config = $config;
+
+        $pdo = new PDO(
+                        "{$this->_config['db.type']}:host={$this->_config['db.host']};dbname=$dbname",
+                        $this->_config['db.user'],
+                        $this->_config['db.password']
+        );
+
+        $this->_pdo = $pdo;
+        //$this->_tbname=$tbname;
+        $this->_namespace = $namespace;
+
+        //docs section
+        $this->_author = $this->_config['docs.author'];
+        $this->_license = $this->_config['docs.license'];
+        $this->_copyright = $this->_config['docs.copyright'];
+        // other config
+        $this->_addRequire = $config['include.addrequire'];
+
+    }
+
+    /**
+     *
      * @param array $info
      */
     public function setForeignKeysInfo($info)
@@ -238,40 +272,6 @@ class MakeDbTable
         }
         $this->_primaryKey = $primaryKey[0];
         $this->_columns = $columns;
-    }
-
-    /**
-     *
-     *  the class constructor
-     *
-     * @param Array $config
-     * @param String $dbname
-     * @param String $namespace
-     */
-    function __construct($config, $dbname, $namespace)
-    {
-
-        $columns = array();
-        $primaryKey = array();
-
-
-        $this->_config = $config;
-        $this->_addRequire = $config['include.addrequire'];
-
-        $pdo = new PDO(
-                        "{$this->_config['db.type']}:host={$this->_config['db.host']};dbname=$dbname",
-                        $this->_config['db.user'],
-                        $this->_config['db.password']
-        );
-
-        $this->_pdo = $pdo;
-        //$this->_tbname=$tbname;
-        $this->_namespace = $namespace;
-
-        //docs section
-        $this->_author = $this->_config['docs.author'];
-        $this->_license = $this->_config['docs.license'];
-        $this->_copyright = $this->_config['docs.copyright'];
     }
 
     /**
