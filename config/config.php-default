@@ -30,6 +30,14 @@ $config=array(
     'include.addrequire' => false,
 
     # default namespace name
-    'namespace.default' => 'Default'
+    'namespace.default' => 'Default',
+
+    # toggles initial caps - i.e. true: InitCaps false: initCaps
+    'formatting.use_initcap_vars' => false,
+
+    # array keys here (column names) will be replaced with the array values (column labels)
+    # you can give custom names to column variables/classes
+    # i.e. array('my_annoyingcolumn_name' => 'MyCustomColumnLabel');
+    'formatting.override_column_names' => array(),
 
 );

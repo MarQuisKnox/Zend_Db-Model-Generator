@@ -65,7 +65,16 @@ class MakeDbTable
      * @var Array $foreignKeysInfo
      */
     protected $_foreignKeysInfo;
-
+        /**
+     *  @var boolean $_useInitCaps;
+     */
+    protected $_useInitCaps = true;
+    /**
+     *
+     * @var array override formatting rules with specific words
+     */
+    protected $_overrideColumnNames = array();
+    
     /**
      *
      *  the class constructor
@@ -97,7 +106,8 @@ class MakeDbTable
         $this->_copyright = $this->_config['docs.copyright'];
         // other config
         $this->_addRequire = $config['include.addrequire'];
-
+        $this->_useInitCaps = $config['formatting.use_initcap_vars'];
+        $this->_overrideColumnNames = $config['formatting.override_column_names'];
     }
 
     /**
@@ -165,9 +175,21 @@ class MakeDbTable
      */
     private function _getCapital($str)
     {
+        // short circuit overrides
+        if(array_key_exists($str, $this->_overrideColumnNames)) {
+            return $this->_overrideColumnNames[$str];
+        }
+
         $temp = '';
-        foreach (explode("_", $str) as $part) {
-            $temp.=ucfirst($part);
+        $parts = explode('_', $str);
+
+        foreach ($parts as $key => $part) {
+            // if not using InitCap variablenames, don't cap the first part
+            if ($key == 0 && !$this->_useInitCaps) {
+                $temp.=$part;
+            } else {
+                $temp.=ucfirst($part);
+            }
         }
         return $temp;
     }
