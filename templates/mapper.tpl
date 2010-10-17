@@ -1,22 +1,23 @@
-<?="<?php\n"?>
-<? if ($this->_addRequire):?>
-require_once('DbTable<?=DIRECTORY_SEPARATOR?><?=$this->_className?>.php');
-<? endif?>
+<?php echo "<?php\n";?>
+<?php if ($this->_addRequire):?>
+require_once('DbTable<?php echo DIRECTORY_SEPARATOR . $this->_className; ?>.php');
+<?php endif?>
 
 /**
  * Add your description here
  *
- * @author <?=$this->_author."\n"?>
- * @copyright <?=$this->_copyright."\n"?>
- * @license <?=$this->_license."\n"?>
+ * @author <?php echo $this->_author."\n"; ?>
+ * @copyright <?php echo $this->_copyright."\n"; ?>
+ * @license <?php echo $this->_license."\n"; ?>
  */
 
-class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
+class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Mapper {
 
     /**
-     * $_dbTable - instance of <?=$this->_namespace?>_Model_DbTable_<?=$this->_className."\n"?>
+     * $_dbTable - instance of <?php echo $this->_namespace; ?>_Model_DbTable_<?php echo $this->_className."\n"; ?>
      *
-     * @var <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
+     * @var <?php echo $this->_namespace; ?>_Model_DbTable_<?php echo $this->_className; ?>
+     
      */
     protected $_dbTable;
 
@@ -25,7 +26,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      *
      * @param string $field
      * @param mixed $value
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls
      */     
     public function findOneByField($field, $value, $cls)
     {
@@ -37,7 +38,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
                     return;
             }
 
-            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;; ?>;
 	    return $cls;
     }
 
@@ -45,14 +46,14 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     /**
      * returns an array, keys are the field names.
      *
-     * @param new <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls
      * @return array
      *
      */
     public function toArray($cls) {
         $result = array(
         
-            <?foreach ($this->_columns as $column):?>'<?=$column['field']?>' => $cls->get<?=$column['capital']?>(),
+            <?foreach ($this->_columns as $column):?>'<?php echo $column['field']; ?>' => $cls->get<?php echo $column['capital']; ?>(),
             <?endforeach;?>
         
         );
@@ -64,7 +65,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
      *
      * @param string $field
      * @param mixed $value
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls
      * @return array
      */
     public function findByField($field, $value, $cls)
@@ -75,9 +76,9 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
 
             $rows = $table->fetchAll($select->where("{$field} = ?", $value));
             foreach ($rows as $row) {
-                    $cls=new <?=$this->_namespace?>_Model_<?=$this->_className?>();
+                    $cls=new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
                     $result[]=$cls;
-                    $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+                    $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;; ?>;
             }
             return $result;
     }
@@ -85,8 +86,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     /**
      * sets the dbTable class
      *
-     * @param <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> $dbTable
-     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper
+     * @param <?php echo $this->_namespace; ?>_Model_DbTable_<?php echo $this->_className; ?> $dbTable
+     * @return <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Mapper
      * 
      */
     public function setDbTable($dbTable)
@@ -104,12 +105,13 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     /**
      * returns the dbTable class
      * 
-     * @return <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
+     * @return <?php echo $this->_namespace; ?>_Model_DbTable_<?php echo $this->_className; ?>
+     
      */
     public function getDbTable()
     {
         if (null === $this->_dbTable) {
-            $this->setDbTable('<?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>');
+            $this->setDbTable('<?php echo $this->_namespace; ?>_Model_DbTable_<?php echo $this->_className; ?>');
         }
         return $this->_dbTable;
     }
@@ -117,10 +119,10 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
     /**
      * saves current row
      *
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls
      *
      */
-    public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $cls,$ignoreEmptyValuesOnUpdate=true)
+    public function save(<?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls,$ignoreEmptyValuesOnUpdate=true)
     {
         if ($ignoreEmptyValuesOnUpdate) {
             $data = $cls->toArray();
@@ -130,10 +132,10 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             }
         }
 
-        if (null === ($id = $cls->get<?=$this->_primaryKey['capital']?>())) {
-            unset($data['<?=$this->_primaryKey['field']?>']);
+        if (null === ($id = $cls->get<?php echo $this->_primaryKey['capital']; ?>())) {
+            unset($data['<?php echo $this->_primaryKey['field']; ?>']);
             $id=$this->getDbTable()->insert($data);
-            $cls->set<?=$this->_primaryKey['capital']?>($id);
+            $cls->set<?php echo $this->_primaryKey['capital']; ?>($id);
         } else {
             if ($ignoreEmptyValuesOnUpdate) {
              $data = $cls->toArray();
@@ -143,17 +145,17 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
                 }
             }
 
-            $this->getDbTable()->update($data, array('<?=$this->_primaryKey['field']?> = ?' => $id));
+            $this->getDbTable()->update($data, array('<?php echo $this->_primaryKey['field']; ?> = ?' => $id));
         }
     }
 
     /**
      * finds row by primary key
      *
-     * @param <?=$this->_primaryKey['phptype']?> $id
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?php echo $this->_primaryKey['phptype']; ?> $id
+     * @param <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls
      */
-    public function find($id, <?=$this->_namespace?>_Model_<?=$this->_className?> $cls)
+    public function find($id, <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?> $cls)
     {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
@@ -162,7 +164,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
 
         $row = $result->current();
 
-        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;; ?>;
     }
 
     /**
@@ -175,8 +177,8 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
         $resultSet = $this->getDbTable()->fetchAll();
         $entries   = array();
         foreach ($resultSet as $row) {
-            $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
-            $entry<?foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
+            $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
+            $entry<?foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']; ?>)
                   <?endforeach;?>
             ->setMapper($this);
             $entries[] = $entry;
@@ -199,9 +201,9 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper {
             $entries   = array();
             foreach ($resultSet as $row)
             {
-                    $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
-                    $entry<?foreach ($this->_columns as $column):?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
-                          <? endforeach;?>
+                    $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
+                    $entry<?php foreach ($this->_columns as $column):?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']; ?>)
+                          <?php endforeach;?>
                     ->setMapper($this);
                     $entries[] = $entry;
             }
