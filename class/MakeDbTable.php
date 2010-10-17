@@ -73,7 +73,7 @@ class MakeDbTable
      *
      * @var array override formatting rules with specific words
      */
-    protected $_overrideColumnNames = array();
+    protected $_overrideWords = array();
     
     /**
      *
@@ -107,7 +107,7 @@ class MakeDbTable
         // other config
         $this->_addRequire = $config['include.addrequire'];
         $this->_useInitCaps = $config['formatting.use_initcap_vars'];
-        $this->_overrideColumnNames = $config['formatting.override_column_names'];
+        $this->_overrideWords = $config['formatting.override_words'];
     }
 
     /**
@@ -176,10 +176,11 @@ class MakeDbTable
     private function _getCapital($str)
     {
         // short circuit overrides
-        if(array_key_exists($str, $this->_overrideColumnNames)) {
-            return $this->_overrideColumnNames[$str];
+        if(array_key_exists($str, $this->_overrideWords)) {
+            return $this->_overrideWords[$str];
         }
-
+        // TODO: match overrideWords elements and replace via regex
+        
         $temp = '';
         $parts = explode('_', $str);
 
