@@ -21,7 +21,7 @@ class <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?> 
     * @var <?php echo  $column['phptype']; ?>
     
     */
-    protected $_<?php echo  $column['capital']; ?>;
+    protected $_<?php echo  $column['variableName']; ?>;
 
     <?php endforeach; ?>
 
@@ -29,7 +29,7 @@ class <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?> 
     {
         $this->setColumnsList(array(
         <?php foreach ($this->_columns as $column): ?>
-        '<?php echo  $column['field']; ?>'=>'<?php echo  $column['capital']; ?>',
+        '<?php echo  $column['field']; ?>'=>'<?php echo  $column['variableName']; ?>',
         <?php endforeach; ?>
         ));
     }
@@ -44,9 +44,9 @@ class <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?> 
 
     *    
     */
-    public function set<?php echo  $column['capital']; ?>($data)
+    public function set<?php echo  $column['functionName']; ?>($data)
     {
-        $this->_<?php echo  $column['capital']; ?>=$data;
+        $this->_<?php echo  $column['variableName']; ?>=$data;
         return $this;
     }
 
@@ -56,9 +56,9 @@ class <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?> 
     * @return <?php echo  $column['phptype']; ?>
     
     */
-    public function get<?php echo  $column['capital']; ?>()
+    public function get<?php echo  $column['functionName']; ?>()
     {
-        return $this->_<?php echo  $column['capital']; ?>;
+        return $this->_<?php echo  $column['variableName']; ?>;
     }
     
 <?php endforeach; ?>
@@ -84,11 +84,11 @@ class <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?> 
     */
     public function deleteRowByPrimaryKey()
     {
-        if (!$this->get<?php echo  $this->_primaryKey['capital']; ?>()) {
+    if (!$this->get<?php echo $this->_primaryKey['functionName']; ?>()) {
             throw new Exception('Primary Key does not contain a value');
         }
         return $this->getMapper()
                     ->getDbTable()
-                    ->delete('<?php echo  $this->_primaryKey['field']; ?> = '.$this->get<?php echo  $this->_primaryKey['capital']; ?>());
+                    ->delete('<?php echo  $this->_primaryKey['field']; ?> = '.$this->get<?php echo  $this->_primaryKey['functionName']; ?>());
     }
 }

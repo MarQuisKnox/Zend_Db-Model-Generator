@@ -275,17 +275,20 @@ class MakeDbTable
         $primaryKey = array();
 
         foreach ($res as $row) {
-            if ($row['Key'] == 'PRI')
-                $primaryKey[] = array(
-                    'field' => $row['Field'],
-                    'type' => $row['Type'],
-                    'phptype' => $this->_convertMysqlTypeToPhp($row['Type']),
-                    'capital' => $this->_getCapital($row['Field']));
-            $columns[] = array(
+            $rowArray = array(
                 'field' => $row['Field'],
                 'type' => $row['Type'],
                 'phptype' => $this->_convertMysqlTypeToPhp($row['Type']),
-                'capital' => $this->_getCapital($row['Field']));
+                'capital' => $this->_getCapital($row['Field']),
+                'variableName' => $this->_getCapital($row['Field']),
+                'functionName' => $this->_getCapital($row['Field'], 'function')
+                );
+
+            if($row['Key'] == 'PRI') {
+                $primaryKey[] = $rowArray;
+            }
+            $columns[] = $rowArray;
+
         }
 
         if (sizeof($primaryKey) == 0) {

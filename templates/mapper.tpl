@@ -30,15 +30,16 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
      */     
     public function findOneByField($field, $value, $cls)
     {
-            $table = $this->getDbTable();
-            $select = $table->select();
+        $table = $this->getDbTable();
+        $select = $table->select();
 
-            $row = $table->fetchRow($select->where("{$field} = ?", $value));
-            if (0 == count($row)) {
-                    return;
-            }
+        $row = $table->fetchRow($select->where("{$field} = ?", $value));
+        if (0 == count($row)) {
+            return;
+        }
 
-            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;; ?>;
+        $cls<?php $count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']?>)<?php if ($count> 0) echo "\n\t\t"; endforeach; ?>;
+
 	    return $cls;
     }
 
@@ -53,7 +54,7 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
     public function toArray($cls) {
         $result = array(
         
-            <?foreach ($this->_columns as $column):?>'<?php echo $column['field']; ?>' => $cls->get<?php echo $column['capital']; ?>(),
+            <?foreach ($this->_columns as $column):?>'<?php echo $column['field']; ?>' => $cls->get<?php echo $column['functionName']; ?>(),
             <?endforeach;?>
         
         );
@@ -70,17 +71,18 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
      */
     public function findByField($field, $value, $cls)
     {
-            $table = $this->getDbTable();
-            $select = $table->select();
-            $result = array();
+        $table = $this->getDbTable();
+        $select = $table->select();
+        $result = array();
 
-            $rows = $table->fetchAll($select->where("{$field} = ?", $value));
-            foreach ($rows as $row) {
-                    $cls=new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
-                    $result[]=$cls;
-                    $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;; ?>;
-            }
-            return $result;
+        $rows = $table->fetchAll($select->where("{$field} = ?", $value));
+        foreach ($rows as $row) {
+            $cls=new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
+            $result[]=$cls;
+            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach; ?>;
+        }
+
+        return $result;
     }
     
     /**
@@ -132,10 +134,10 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
             }
         }
 
-        if (null === ($id = $cls->get<?php echo $this->_primaryKey['capital']; ?>())) {
+        if (null === ($id = $cls->get<?php echo $this->_primaryKey['functionName']; ?>())) {
             unset($data['<?php echo $this->_primaryKey['field']; ?>']);
             $id=$this->getDbTable()->insert($data);
-            $cls->set<?php echo $this->_primaryKey['capital']; ?>($id);
+            $cls->set<?php echo $this->_primaryKey['functionName']; ?>($id);
         } else {
             if ($ignoreEmptyValuesOnUpdate) {
              $data = $cls->toArray();
@@ -164,7 +166,7 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
 
         $row = $result->current();
 
-        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;; ?>;
+        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach; ?>;
     }
 
     /**
@@ -178,7 +180,7 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
         $entries   = array();
         foreach ($resultSet as $row) {
             $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
-            $entry<?foreach ($this->_columns as $column): $count--?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']; ?>)
+            $entry<?foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']; ?>)
                   <?endforeach;?>
             ->setMapper($this);
             $entries[] = $entry;
@@ -197,17 +199,17 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
      */
     public function fetchList($where=null, $order=null, $count=null, $offset=null)
     {
-            $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
-            $entries   = array();
-            foreach ($resultSet as $row)
-            {
-                    $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
-                    $entry<?php foreach ($this->_columns as $column):?>->set<?php echo $column['capital']; ?>($row-><?php echo $column['field']; ?>)
-                          <?php endforeach;?>
-                    ->setMapper($this);
-                    $entries[] = $entry;
-            }
-            return $entries;
+        $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
+        $entries   = array();
+        foreach ($resultSet as $row) {
+            $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
+            $entry<?php foreach ($this->_columns as $column):?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']; ?>)
+                  <?php endforeach;?>
+            ->setMapper($this);
+            $entries[] = $entry;
+        }
+
+        return $entries;
     }
 
 }
