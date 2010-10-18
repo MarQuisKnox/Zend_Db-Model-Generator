@@ -153,7 +153,7 @@ class MakeDbTable
     public function setTableName($table)
     {
         $this->_tbname = $table;
-        $this->_className = $this->_getCapital($table);
+        $this->_className = $this->_getCapital($table, 'class');
     }
 
     /**
@@ -170,23 +170,34 @@ class MakeDbTable
      *  removes underscores and capital the letter that was after the underscore
      *  example: 'ab_cd_ef' to 'AbCdEf'
      *
+     *  variable names can be set to start lowercased with the config parameter
+     *  formatting.use_init_caps = false, and these strings can be totally
+     *  overridden with formatting.override_words
+     *
      * @param String $str
+     * @param string $type optional; when set to anything
+     * besides 'var', will always ucfirst() the string if not in overrideWords
      * @return String
      */
-    private function _getCapital($str)
+    private function _getCapital($str, $type='var')
     {
-        // short circuit overrides
+        // short circuit overrideWords;
+        // variables are returned as in override, functions are InitCapped
         if(array_key_exists($str, $this->_overrideWords)) {
-            return $this->_overrideWords[$str];
+            if($type == 'function') {
+                return ucfirst($this->_overrideWords[$str]);
+            } else {
+                return $this->_overrideWords[$str];
+            }
         }
-        // TODO: match overrideWords elements and replace via regex
+        // TODO: match overrideWords elements and replace via regex; unify formatting rules
         
         $temp = '';
         $parts = explode('_', $str);
 
         foreach ($parts as $key => $part) {
             // if not using InitCap variablenames, don't cap the first part
-            if ($key == 0 && !$this->_useInitCaps) {
+            if ($type == 'var' && $key == 0 && !$this->_useInitCaps) {
                 $temp.=$part;
             } else {
                 $temp.=ucfirst($part);
@@ -283,9 +294,9 @@ class MakeDbTable
                 'variableName' => $this->_getCapital($row['Field']),
                 'functionName' => $this->_getCapital($row['Field'], 'function')
                 );
-
+            
             if($row['Key'] == 'PRI') {
-                $primaryKey[] = $rowArray;
+                $primaryKey[] = $rowArray;  
             }
             $columns[] = $rowArray;
 
