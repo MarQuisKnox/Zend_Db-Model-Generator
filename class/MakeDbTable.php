@@ -73,7 +73,7 @@ class MakeDbTable
      *
      * @var array override formatting rules with specific words
      */
-    protected $_overrideColumnNames = array();
+    protected $_overrideWords = array();
     
     /**
      *
@@ -107,7 +107,7 @@ class MakeDbTable
         // other config
         $this->_addRequire = $config['include.addrequire'];
         $this->_useInitCaps = $config['formatting.use_initcap_vars'];
-        $this->_overrideColumnNames = $config['formatting.override_column_names'];
+        $this->_overrideWords = $config['formatting.override_words'];
     }
 
     /**
@@ -153,7 +153,7 @@ class MakeDbTable
     public function setTableName($table)
     {
         $this->_tbname = $table;
-        $this->_className = $this->_getCapital($table);
+        $this->_className = $this->_getCapital($table, 'class');
     }
 
     /**
@@ -170,22 +170,34 @@ class MakeDbTable
      *  removes underscores and capital the letter that was after the underscore
      *  example: 'ab_cd_ef' to 'AbCdEf'
      *
+     *  variable names can be set to start lowercased with the config parameter
+     *  formatting.use_init_caps = false, and these strings can be totally
+     *  overridden with formatting.override_words
+     *
      * @param String $str
+     * @param string $type optional; when set to anything
+     * besides 'var', will always ucfirst() the string if not in overrideWords
      * @return String
      */
-    private function _getCapital($str)
+    private function _getCapital($str, $type='var')
     {
-        // short circuit overrides
-        if(array_key_exists($str, $this->_overrideColumnNames)) {
-            return $this->_overrideColumnNames[$str];
+        // short circuit overrideWords;
+        // variables are returned as in override, functions are InitCapped
+        if(array_key_exists($str, $this->_overrideWords)) {
+            if($type == 'function') {
+                return ucfirst($this->_overrideWords[$str]);
+            } else {
+                return $this->_overrideWords[$str];
+            }
         }
-
+        // TODO: match overrideWords elements and replace via regex; unify formatting rules
+        
         $temp = '';
         $parts = explode('_', $str);
 
         foreach ($parts as $key => $part) {
             // if not using InitCap variablenames, don't cap the first part
-            if ($key == 0 && !$this->_useInitCaps) {
+            if ($type == 'var' && $key == 0 && !$this->_useInitCaps) {
                 $temp.=$part;
             } else {
                 $temp.=ucfirst($part);
@@ -274,17 +286,20 @@ class MakeDbTable
         $primaryKey = array();
 
         foreach ($res as $row) {
-            if ($row['Key'] == 'PRI')
-                $primaryKey[] = array(
-                    'field' => $row['Field'],
-                    'type' => $row['Type'],
-                    'phptype' => $this->_convertMysqlTypeToPhp($row['Type']),
-                    'capital' => $this->_getCapital($row['Field']));
-            $columns[] = array(
+            $rowArray = array(
                 'field' => $row['Field'],
                 'type' => $row['Type'],
                 'phptype' => $this->_convertMysqlTypeToPhp($row['Type']),
-                'capital' => $this->_getCapital($row['Field']));
+                'capital' => $this->_getCapital($row['Field']),
+                'variableName' => $this->_getCapital($row['Field']),
+                'functionName' => $this->_getCapital($row['Field'], 'function')
+                );
+            
+            if($row['Key'] == 'PRI') {
+                $primaryKey[] = $rowArray;  
+            }
+            $columns[] = $rowArray;
+
         }
 
         if (sizeof($primaryKey) == 0) {
