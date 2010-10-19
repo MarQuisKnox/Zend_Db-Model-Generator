@@ -38,7 +38,7 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
             return;
         }
 
-        $cls<?php $count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']?>)<?php if ($count> 0) echo "\n\t\t"; endforeach; ?>;
+        $this->_setModelPropertiesFromResult($cls, $row);
 
 	    return $cls;
     }
@@ -52,12 +52,13 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
      *
      */
     public function toArray($cls) {
-        $result = array(
+        $result = array();
+
+        foreach($cls->getColumnsList() AS $columnName => $varName) {
+            $getMethod = 'get' . ucfirst($varName);
+            $result[$columnName] = $cls->$getMethod();
+        }
         
-            <?foreach ($this->_columns as $column):?>'<?php echo $column['field']; ?>' => $cls->get<?php echo $column['functionName']; ?>(),
-            <?endforeach;?>
-        
-        );
         return $result;
     }
 
@@ -79,7 +80,7 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
         foreach ($rows as $row) {
             $cls=new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
             $result[]=$cls;
-            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach; ?>;
+            $this->_setModelPropertiesFromResult($cls, $row);
         }
 
         return $result;
@@ -166,7 +167,7 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
 
         $row = $result->current();
 
-        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach; ?>;
+        $this->_setModelPropertiesFromResult($cls, $row);
     }
 
     /**
@@ -180,9 +181,8 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
         $entries   = array();
         foreach ($resultSet as $row) {
             $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
-            $entry<?foreach ($this->_columns as $column): $count--?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']; ?>)
-                  <?endforeach;?>
-            ->setMapper($this);
+            $this->_setModelPropertiesFromResult($entry, $row);
+            $entry->setMapper($this);
             $entries[] = $entry;
         }
         return $entries;
@@ -203,13 +203,26 @@ class <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>Map
         $entries   = array();
         foreach ($resultSet as $row) {
             $entry = new <?php echo $this->_namespace; ?>_Model_<?php echo $this->_className; ?>();
-            $entry<?php foreach ($this->_columns as $column):?>->set<?php echo $column['functionName']; ?>($row-><?php echo $column['field']; ?>)
-                  <?php endforeach;?>
-            ->setMapper($this);
+            $this->_setModelPropertiesFromResult($entry, $row);
+            $entry->setMapper($this);
             $entries[] = $entry;
         }
 
         return $entries;
+    }
+
+    /**
+    * utility function to run all setter methods on a model object
+    *
+    * @param object $modelObj data model object to assign values into
+    * @param object $resultObj result set object containing values
+    */
+    protected function _setModelPropertiesFromResult($modelObj, $resultObj)
+    {
+        foreach($modelObj->getColumnsList() AS $columnName => $varName) {
+            $setMethod = 'set' . ucfirst($varName);
+            $modelObj->$setMethod($resultObj->$columnName);
+        }
     }
 
 }
