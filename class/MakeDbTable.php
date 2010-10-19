@@ -225,8 +225,7 @@ class MakeDbTable
      */
     private function _convertMysqlTypeToPhp($str)
     {
-
-        preg_match('#^(?:tiny|small|medium|long|big|var)?(\w+)(?:\(\d+\))?(?:\s\w+)*$#', $str, $matches);
+        preg_match('#^(?:tiny|small|medium|long|big|var|float)?(\w+)(?:\(\d+(?:,\d+)?\))?(?:\s\w+)*$#', $str, $matches);
         $res = str_ireplace(array('timestamp', 'blob', 'char'), 'string', $matches[1]);
         return $res;
     }
