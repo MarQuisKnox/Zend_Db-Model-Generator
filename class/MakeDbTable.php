@@ -184,7 +184,7 @@ class MakeDbTable
         // short circuit overrideWords;
         // variables are returned as in override, functions are InitCapped
         if(array_key_exists($str, $this->_overrideWords)) {
-            if($type == 'function') {
+            if($type == 'function' || $type == 'class') {
                 return ucfirst($this->_overrideWords[$str]);
             } else {
                 return $this->_overrideWords[$str];
