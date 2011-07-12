@@ -1,7 +1,7 @@
 <?php
 
-abstract class MainModel {
-
+abstract class <?=$this->_namespace?>
+{
     protected $_mapper;
     protected $_columnsList;
     
@@ -11,7 +11,8 @@ abstract class MainModel {
      * @return Default_Model_
      */
 
-    public function setColumnsList($data) {
+    public function setColumnsList($data)
+    {
         $this->_columnsList=$data;
         return $this;
     }
@@ -21,7 +22,8 @@ abstract class MainModel {
      *
      * @return array
      */
-    public function getColumnsList() {
+    public function getColumnsList()
+    {
         return $this->_columnsList;
     }
 
@@ -29,7 +31,8 @@ abstract class MainModel {
      * converts database column name to php setter/getter function name
      * @param string $column
      */
-    public function columnName2Var($column) {
+    public function columnName2Var($column)
+    {
         if (!isset($this->_columnsList[$column]))
             throw new Exception("column '$column' not found!");
         return $this->_columnsList[$column];
@@ -253,9 +256,7 @@ abstract class MainModel {
      * finds row by id
      *
      * @param <?=$this->_primaryKey['phptype']?> $id
-     * @return MainModel
-
-     *
+     * @return <?=$this->_namespace?>
      */
     public function find($id)
     {
@@ -290,7 +291,6 @@ abstract class MainModel {
      *
      * @param <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper $mapper
      * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
-
      */
 
     public function setMapper($mapper)
@@ -298,6 +298,7 @@ abstract class MainModel {
         $this->_mapper = $mapper;
         return $this;
     }
+
     /**
      * saves current loaded row
      *
@@ -305,7 +306,6 @@ abstract class MainModel {
      *      this option will not update columns with empty values.
      *
      * @param boolean $ignoreEmptyValuesOnUpdate
-     *
      */
 
     public function save($ignoreEmptyValuesOnUpdate=true)
@@ -319,7 +319,8 @@ abstract class MainModel {
      * @param bool $withFromPart
      * @return Zend_Db_Table_Select
      */
-    public function getSelect($withFromPart=true,$resetColumns=true,$resetOrder=true,$resetLimitOffset=true) {
+    public function getSelect($withFromPart=true,$resetColumns=true,$resetOrder=true,$resetLimitOffset=true)
+    {
         $select=$this->getMapper()->getDbTable()->select($withFromPart);
         if ($resetColumns)
     $select->reset(Zend_Db_Select::COLUMNS);
@@ -337,14 +338,15 @@ abstract class MainModel {
      * @param string $sql
      * @return Zend_Paginator 
      */
-    public function query2Paginator($sql) {
+    public function query2Paginator($sql)
+    {
         $result=$this->getMapper()->getDbTable()->getAdapter()->fetchAll($sql);
         $paginator = Zend_Paginator::factory($result);
         return $paginator;
     }
 
-    public function getTableName() {
+    public function getTableName()
+    {
         return $this->getMapper()->getDbTable()->getTableName();
     }
-
 }

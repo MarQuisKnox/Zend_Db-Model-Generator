@@ -6,12 +6,11 @@ class ArgvParser {
     private $_author;
     private $_version;
 
-    function __construct($argv,$author,$version) {
-
-        $this->_argv=$argv;
-        $this->_author=$author;
-        $this->_version=$version;
-
+    function __construct($argv, $author, $version)
+    {
+        $this->_argv    = $argv;
+        $this->_author  = $author;
+        $this->_version = $version;
     }
 
     function getUsage() {

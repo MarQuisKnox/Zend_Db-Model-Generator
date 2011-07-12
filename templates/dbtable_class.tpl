@@ -1,5 +1,7 @@
 <?php
-abstract class MainDbTable extends Zend_Db_Table_Abstract {
+
+abstract class <?=$this->_namespace?>_DbTable extends Zend_Db_Table_Abstract
+{
         /**
          * $_name - name of database table
          *
@@ -21,7 +23,8 @@ abstract class MainDbTable extends Zend_Db_Table_Abstract {
          *
          * @var string
          */
-        public function getPrimaryKeyName() {
+        public function getPrimaryKeyName()
+        {
             return $this->_id;
         }
 
@@ -30,7 +33,8 @@ abstract class MainDbTable extends Zend_Db_Table_Abstract {
          * 
          * @var string
          */
-        public function getTableName() {
+        public function getTableName()
+        {
             return $this->_name;
         }
 
@@ -38,14 +42,15 @@ abstract class MainDbTable extends Zend_Db_Table_Abstract {
      * returns the number of rows in the table
      * @var int
      */
-        public function countAllRows() {
+        public function countAllRows()
+        {
             $query = $this->select()->from($this->_name, 'count(*) as all_count');
             $numRows = $this->fetchRow($query);
             return $numRows['all_count'];
         }
 
-        public function countByQuery($where='') {
-
+        public function countByQuery($where='')
+        {
             if ($where)
                 $where='where '.$where;
 
@@ -67,11 +72,11 @@ SQL;
          * @param int $offset
          * @return Zend_Db_Select
          */
-        public function fetchList($where=null, $order=null, $count=null, $offset=null) {
+        public function fetchList($where=null, $order=null, $count=null, $offset=null)
+        {
             $select=$this->getAdapter()->select()->from($this->_name)->order($order)->limit($count, $offset);
             if (!is_null($where))
                 $select->where($where);
             return $select;
         }
-        
 }
