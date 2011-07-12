@@ -1,94 +1,102 @@
-<?php echo  "<?php\n"; ?>
-<?php if ($this->_addRequire): ?>
-require_once('<?php echo  $this->_className; ?>Mapper.php');
-<?php endif; ?>
+<?="<?php\n"?>
+<? if ($this->_addRequire):?>
+require_once('<?=$this->_className?>Mapper.php');
+<? endif; ?>
 require_once('MainModel.php');
 
 /**
-* Add your description here
-*
-* @author <?php echo  $this->_author . "\n"; ?>
-* @copyright <?php echo  $this->_copyright . "\n"; ?>
-* @license <?php echo  $this->_license . "\n"; ?>
-*/
-class <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?> extends MainModel
+ * Add your description here
+ *
+ * @author <?=$this->_author."\n"?>
+ * @copyright <?=$this->_copyright."\n"?>
+ * @license <?=$this->_license."\n"?>
+ */
+ 
+class <?=$this->_namespace?>_Model_<?=$this->_className?> extends MainModel
 {
 
-    <?php foreach ($this->_columns as $column): ?>
-/**
-    * mysql var type <?php echo  $column['type']; ?>
-    
-    * @var <?php echo  $column['phptype']; ?>
-    
-    */
-    protected $_<?php echo  $column['variableName']; ?>;
-
-    <?php endforeach; ?>
-
-    public function __construct()
-    {
-        $this->setColumnsList(array(
-        <?php foreach ($this->_columns as $column): ?>
-        '<?php echo  $column['field']; ?>'=>'<?php echo  $column['variableName']; ?>',
-        <?php endforeach; ?>
-        ));
-    }
-
-<?php foreach ($this->_columns as $column): ?>
+<?foreach ($this->_columns as $column):?>
     /**
-    * sets column <?php echo  $column['field']; ?> type <?php echo  $column['type']; ?>
-    
-    *
-    * @param <?php echo  $column['phptype']; ?> $data
-    * @return <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?>
+     * mysql var type <?=$column['type']?>
 
-    *    
-    */
-    public function set<?php echo  $column['functionName']; ?>($data)
+     *
+     * @var <?=$column['phptype']?>
+     
+     */
+    protected $_<?=$column['capital']?>;
+    
+<?endforeach;?>
+
+    
+
+function __construct() {
+    $this->setColumnsList(array(
+<?foreach ($this->_columns as $column):?>
+    '<?=$column['field']?>'=>'<?=$column['capital']?>',
+<?endforeach;?>
+    ));
+}
+
+	
+    <?foreach ($this->_columns as $column):?>
+
+    /**
+     * sets column <?=$column['field']?> type <?=$column['type']?>
+     
+     *
+     * @param <?=$column['phptype']?> $data
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
+     
+     *
+     **/
+
+    public function set<?=$column['capital']?>($data)
     {
-        $this->_<?php echo  $column['variableName']; ?>=$data;
+        $this->_<?=$column['capital']?>=$data;
         return $this;
     }
 
     /**
-    * gets column <?php echo  $column['field']; ?> type <?php echo  $column['type']; ?>
+     * gets column <?=$column['field']?> type <?=$column['type']?>
 
-    * @return <?php echo  $column['phptype']; ?>
-    
-    */
-    public function get<?php echo  $column['functionName']; ?>()
+     * @return <?=$column['phptype']?>
+     
+     */
+     
+    public function get<?=$column['capital']?>()
     {
-        return $this->_<?php echo  $column['variableName']; ?>;
+        return $this->_<?=$column['capital']?>;
     }
-    
-<?php endforeach; ?>
+    <?endforeach;?>
 
     /**
-    * returns the mapper class
-    *
-    * @return <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?>Mapper
-    *
-    */
+     * returns the mapper class
+     *
+     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper
+     *
+     */
+
     public function getMapper()
     {
         if (null === $this->_mapper) {
-            $this->setMapper(new <?php echo  $this->_namespace; ?>_Model_<?php echo  $this->_className; ?>Mapper());
+            $this->setMapper(new <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper());
         }
         return $this->_mapper;
     }
 
+
     /**
-    * deletes current row by deleting a row that matches the primary key
-    *
-    * @return int
-    */
+     * deletes current row by deleting a row that matches the primary key
+     * 
+     * @return int
+     */
+
     public function deleteRowByPrimaryKey()
     {
-    if (!$this->get<?php echo $this->_primaryKey['functionName']; ?>()) {
+        if (!$this->get<?=$this->_primaryKey['capital']?>())
             throw new Exception('Primary Key does not contain a value');
-        }
-        return $this->getMapper()
-                    ->getDbTable()
-                    ->delete('<?php echo  $this->_primaryKey['field']; ?> = '.$this->get<?php echo  $this->_primaryKey['functionName']; ?>());
+        return $this->getMapper()->getDbTable()->delete('<?=$this->_primaryKey['field']?> = '.$this->get<?=$this->_primaryKey['capital']?>());
     }
+
 }
+
