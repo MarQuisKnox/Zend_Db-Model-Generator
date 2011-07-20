@@ -2,6 +2,7 @@
 /**
  * main class for files creation
  */
+
 class MakeDbTable
 {
     /**
@@ -23,7 +24,6 @@ class MakeDbTable
      * @var Array $_columns;
      */
     protected $_columns;
-
 
     /**
      * @var String $_className;
@@ -189,7 +189,7 @@ class MakeDbTable
                     return $res;
                 }
             }
-        }
+    }
 
     public function parseTable()
     {
@@ -219,7 +219,7 @@ class MakeDbTable
         $tblinfo    = array();
         $keys       = array();
 
-        foreach ($lines as $line) {
+        foreach ($lines AS $line) {
             preg_match('/^\s*CONSTRAINT `(\w+)` FOREIGN KEY \(`(\w+)`\) REFERENCES `(\w+)` \(`(\w+)`\)/', $line, $tblinfo);
             if (sizeof($tblinfo) > 0) {
                 $keys[] = array(
@@ -247,7 +247,7 @@ class MakeDbTable
 		$res        = $qry->fetchAll();
 		$primaryKey = array();
 
-		foreach ($res as $row) {
+		foreach ($res AS $row) {
 			if ($row['Key'] == 'PRI')
 				$primaryKey[]=array(
                                         'field'=>$row['Field'],
@@ -261,14 +261,13 @@ class MakeDbTable
                                 'capital'=>$this->_getCapital($row['Field']));
 		}
 
-                if (sizeof($primaryKey) == 0) {
-			throw new Exception("didn't find primary keys in table $tbname.");
+        if (sizeof($primaryKey) == 0) {
+		    throw new Exception('didn\'t find primary keys in table '.$tbname);
+		} else if (sizeof($primaryKey) > 1) {
+			throw new Exception('found more then one primary key! probably a bug: '.join(', ', $primaryKey));
 		}
 
-		else if (sizeof($primaryKey)>1) {
-			throw new Exception("found more then one primary key! probably a bug: ".join(", ",$primaryKey));
-		}
-                $this->_primaryKey=$primaryKey[0];
+        $this->_primaryKey=$primaryKey[0];
 		$this->_columns=$columns;
     }
 
@@ -324,12 +323,12 @@ class MakeDbTable
     function makeDbTableFile()
     {
         $referenceMap   = '';
-            $dbTableFile=$this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+        $dbTableFile    = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
 
         $foreignKeysInfo    = $this->getForeignKeysInfo();
         $references         = array();
 
-        foreach ($foreignKeysInfo as $info) {
+        foreach ($foreignKeysInfo AS $info) {
             $refTableClass  = $this->_getCapital($info['foreign_tbl_name']);
             $key            = $this->_getCapital($info['key_name']);
             $references[]   = "
@@ -342,12 +341,10 @@ class MakeDbTable
                     $referenceMap="protected \$_referenceMap    = array(\n".
                     join(',',$references). "          \n                );";
                 }
-            $dbTableData=$this->getParsedTplContents('dbtable.tpl',$referenceMap);
+            $dbTableData = $this->getParsedTplContents('dbtable.tpl', $referenceMap);
         }
 
-        $path = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable';
-
-        if (!file_put_contents($dbTableFile,$dbTableData)) {
+        if (!file_put_contents($dbTableFile, $dbTableData)) {
             die('Error: could not write db table file '.$dbTableFile);
         }
     }
@@ -357,7 +354,7 @@ class MakeDbTable
      */
     function makeMapperFile()
     {
-            $mapperFile=$this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
+        $mapperFile = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
         $mapperData = $this->getParsedTplContents('mapper.tpl');
 
         if (!file_put_contents($mapperFile,$mapperData)) {
@@ -370,13 +367,13 @@ class MakeDbTable
      */
     function makeModelFile()
     {
-            $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_className.'.php';
-            $modelData = $this->getParsedTplContents('model.tpl');
+        $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+        $modelData = $this->getParsedTplContents('model.tpl');
 
-            if (!file_put_contents($modelFile,$modelData)) {
-                die("Error: could not write model file $modelFile.");
-            }
+        if (!file_put_contents($modelFile,$modelData)) {
+            die('Error: could not write model file '.$modelFile);
         }
+    }
 
         /**
          * creates the model class file

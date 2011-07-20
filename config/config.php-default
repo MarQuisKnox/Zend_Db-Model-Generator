@@ -31,5 +31,4 @@ $config = array(
 
     # default namespace name
     'namespace.default' => 'Default'
-
 );
