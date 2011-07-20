@@ -2,7 +2,6 @@
 /**
  * main class for files creation
  */
-
 class MakeDbTable
 {
     /**
@@ -184,10 +183,13 @@ class MakeDbTable
     private function _convertMysqlTypeToPhp($str)
     {
         preg_match('#^(?:tiny|small|medium|long|big|var)?(\w+)(?:\(\d+\))?(?:\s\w+)*$#',$str,$matches);
-        $res = str_ireplace(array('timestamp','blob','char'), 'string', $matches[1]);
-
-        return $res;
-    }
+            if(!empty($matches)) {
+                if(isset($matches[1])) {
+                    $res = str_ireplace(array('timestamp','blob','char'), 'string', $matches[1]);
+                    return $res;
+                }
+            }
+        }
 
     public function parseTable()
     {
@@ -322,7 +324,7 @@ class MakeDbTable
     function makeDbTableFile()
     {
         $referenceMap   = '';
-        $dbTableFile    = $this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+            $dbTableFile=$this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
 
         $foreignKeysInfo    = $this->getForeignKeysInfo();
         $references         = array();
@@ -340,9 +342,10 @@ class MakeDbTable
                     $referenceMap="protected \$_referenceMap    = array(\n".
                     join(',',$references). "          \n                );";
                 }
+            $dbTableData=$this->getParsedTplContents('dbtable.tpl',$referenceMap);
         }
 
-        $dbTableData = $this->getParsedTplContents('dbtable.tpl', $referenceMap);
+        $path = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable';
 
         if (!file_put_contents($dbTableFile,$dbTableData)) {
             die('Error: could not write db table file '.$dbTableFile);
@@ -354,7 +357,7 @@ class MakeDbTable
      */
     function makeMapperFile()
     {
-        $mapperFile = $this->getLocation().DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
+            $mapperFile=$this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_className.'Mapper.php';
         $mapperData = $this->getParsedTplContents('mapper.tpl');
 
         if (!file_put_contents($mapperFile,$mapperData)) {
@@ -367,35 +370,54 @@ class MakeDbTable
      */
     function makeModelFile()
     {
-        $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.$this->_className.'.php';
-        $modelData = $this->getParsedTplContents('model.tpl');
+            $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+            $modelData = $this->getParsedTplContents('model.tpl');
 
-        if (!file_put_contents($modelFile, $modelData)) {
-            die('Error: could not write model file '.$modelFile);
-        }
-    }
-
-    /**
-     * creates all class files
-     *
-     * @return Boolean
-     */
-    function doItAll()
-    {
-        $this->makeDbTableFile();
-        $this->makeMapperFile();
-        $this->makeModelFile();
-
-        $templatesDir = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'templates').DIRECTORY_SEPARATOR;
-
-        if (!copy($templatesDir.'model_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.$this->getNamespace().'.php')) {
-            die('could not copy model_class.tpl as '.$this->getNameSpace().'.php');
+            if (!file_put_contents($modelFile,$modelData)) {
+                die("Error: could not write model file $modelFile.");
+            }
         }
 
-        if (!copy($templatesDir.'dbtable_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->getNameSpace().'_DbTable.php')) {
-            die('could not copy dbtable_class.php as '.$this->getNameSpace().'_DbTable.php');
+        /**
+         * creates the model class file
+         */
+        function makeMainModelFile()
+        {
+            $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.$this->_namespace.'.php';
+            $modelData = $this->getParsedTplContents('model_class.tpl');
+
+            if (!file_put_contents($modelFile, $modelData)) {
+                die('Error: could not write model file '.$modelFile);
+            }
         }
 
-	    return true;
-	}
+        /**
+         * creates the model class file
+         */
+        function makeMainModelTplFile()
+        {
+            $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_namespace.'.php';
+            $modelData = $this->getParsedTplContents('dbtable_class.tpl');
+
+            if (!file_put_contents($modelFile, $modelData)) {
+                die('Error: could not write model file '.$modelFile);
+            }
+        }
+
+        /**
+         *
+         * creates all class files
+         *
+         * @return Boolean
+         */
+        function doItAll()
+        {
+            $this->makeDbTableFile();
+            $this->makeMapperFile();
+            $this->makeModelFile();
+            $this->makeMainModelFile();
+            $this->makeMainModelTplFile();
+
+	        return true;
+        }
 }

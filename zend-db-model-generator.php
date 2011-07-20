@@ -51,8 +51,8 @@ if (sizeof($tables) == 0) {
 }
 
 if (!is_dir($dir)) {
-    if (!@mkdir($dir,0755,true)) {
-        die('error: could not create directory. '.$dir);
+    if (!@mkdir($dir, 0755, true)) {
+        die("error: could not create directory ".$dir."\nFile: ".__FILE__."\nLine: ".__LINE__);
     }
 }
 
@@ -62,4 +62,4 @@ foreach ($tables as $table) {
     $cls->doItAll();
 }
 
-echo "done!\n";
+echo "Model generation complete.\n";
