@@ -71,11 +71,6 @@ class MakeDbTable
     protected $_location;
 
     /**
-     * @var String $_namespace;
-     */
-    protected $_namespace;
-
-    /**
      * @var Array $foreignKeysInfo
      */
     protected $_foreignKeysInfo;
