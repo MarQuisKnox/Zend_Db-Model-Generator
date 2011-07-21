@@ -11,7 +11,6 @@
  */
 
 <? if ($this->_addRequire):?>
-
 require_once('DbTable<?=DIRECTORY_SEPARATOR?><?=$this->_className?>.php');
 <? endif?>
 

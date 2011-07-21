@@ -8,6 +8,7 @@
  * @license     <?=$this->_license."\n"?>
  *
  * @uses        <?=$this->_namespace?>
+<?="\n"?>
  */
 
 <? if ($this->_addRequire): ?>
@@ -20,7 +21,7 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> extends <?=$
 {
 <?foreach ($this->_columns as $column):?>
     /**
-     * mysql var type <?=$column['type']?>
+     * mysql var type <?=$column['type']?><?="\n"?>
      *
      * @var <?=$column['phptype']?>
     <?="\n"?>
@@ -40,10 +41,10 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> extends <?=$
     <?foreach ($this->_columns AS $column):?>
 
     /**
-     * sets column <?=$column['field']?> type <?=$column['type']?>
+     * sets column <?=$column['field']?> type <?=$column['type']?><?="\n"?>
      *
      * @param <?=$column['phptype']?> $data
-     * @return <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>
+     * @return <?=$this->_namespace?>_Generated_Model_<?=$this->_className?><?="\n"?>
      */
     public function set<?=$column['capital']?>($data)
     {
@@ -52,9 +53,9 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> extends <?=$
     }
 
     /**
-     * gets column <?=$column['field']?> type <?=$column['type']?>
+     * gets column <?=$column['field']?> type <?=$column['type']?><?="\n"?>
      *
-     * @return <?=$column['phptype']?>
+     * @return <?=$column['phptype']?><?="\n"?>
      */
     public function get<?=$column['capital']?>()
     {
