@@ -385,6 +385,18 @@ class MakeDbTable
             }
         }
 
+        function makeUserModelFile()
+        {
+            $modelFile = $this->getLocation().DIRECTORY_SEPARATOR.$this->_className.'.php';
+            $modelData = $this->getParsedTplContents('user_model_class.tpl');
+
+            if(!file_exists($modelFile)) {
+                if (!file_put_contents($modelFile, $modelData)) {
+                    die('Error: could not write user model file '.$modelFile);
+                }
+            }
+        }
+
         /**
          * creates the model class file
          */
@@ -408,9 +420,14 @@ class MakeDbTable
             $this->makeDbTableFile();
             $this->makeMapperFile();
             $this->makeModelFile();
-            $this->makeMainModelFile();
-            $this->makeMainModelTplFile();
+            $this->makeUserModelFile();
 
 	        return true;
+        }
+
+        function createMainModelFiles()
+        {
+            $this->makeMainModelFile();
+            $this->makeMainModelTplFile();
         }
 }

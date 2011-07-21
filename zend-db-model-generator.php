@@ -28,7 +28,7 @@ if (sizeof($params['--namespace']) == 1) {
 }
 
 $dbname = $params['--database'][0];
-$cls    = new MakeDbTable($config,$dbname,$namespace);
+$cls    = new MakeDbTable($config, $dbname, $namespace);
 $tables = array();
 
 if ($params['--all-tables'] OR sizeof($params['--tables-regex']) > 0) {
@@ -42,8 +42,8 @@ if (sizeof($params['--location']) == 1) {
     $cls->setLocation($params['--location'][0]);
     $dir = $params['--location'][0].DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable';
 } else {
-    $cls->setLocation($params['--database'][0]);
-    $dir = $params['--database'][0].DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable';
+    $cls->setLocation($namespace);
+    $dir = $namespace.DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable';
 }
 
 if (sizeof($tables) == 0) {
@@ -51,15 +51,20 @@ if (sizeof($tables) == 0) {
 }
 
 if (!is_dir($dir)) {
-    if (!@mkdir($dir, 0755, true)) {
-        die("error: could not create directory ".$dir."\nFile: ".__FILE__."\nLine: ".__LINE__);
+    if (!@mkdir($dir, 0777, true)) {
+        die("error: could not create directory ".$dir."\nFile: ".__FILE__."\nLine: ".__LINE__."\n");
+    }
+} elseif (!is_writable($dir)) {
+    if(!chmod($dir, '0777')) {
+        die("error: ".$dir." not writeable\nFile: ".__FILE__."\nLine: ".__LINE__."\n");
     }
 }
 
-foreach ($tables as $table) {
+foreach ($tables AS $table) {
     $cls->setTableName($table);
     $cls->parseTable();
     $cls->doItAll();
 }
 
+$cls->createMainModelFiles();
 echo "Model generation complete.\n";
