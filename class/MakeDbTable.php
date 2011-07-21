@@ -338,8 +338,9 @@ class MakeDbTable
                     $referenceMap="protected \$_referenceMap    = array(\n".
                     join(',',$references). "          \n                );";
                 }
-            $dbTableData = $this->getParsedTplContents('dbtable.tpl', $referenceMap);
         }
+
+        $dbTableData = $this->getParsedTplContents('dbtable.tpl', $referenceMap);
 
         if (!file_put_contents($dbTableFile, $dbTableData)) {
             die('Error: could not write db table file '.$dbTableFile);
