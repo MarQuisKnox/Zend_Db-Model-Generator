@@ -211,8 +211,8 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
         foreach ($resultSet AS $row) {
             $entry = new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>();
             $entry<?foreach ($this->_columns AS $column):?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
-            <? endforeach;?>->setMapper($this);
-
+            <? endforeach;?>
+            ->setMapper($this);
             $entries[] = $entry;
         }
 

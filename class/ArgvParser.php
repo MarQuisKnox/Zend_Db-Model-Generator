@@ -1,7 +1,7 @@
 <?php
 
-class ArgvParser {
-
+class ArgvParser
+{
     private $_argv;
     private $_author;
     private $_version;

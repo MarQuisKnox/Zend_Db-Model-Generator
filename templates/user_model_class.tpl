@@ -12,7 +12,7 @@
  */
 
 <? if ($this->_addRequire): ?>
-require_once('Generated/<?=$this->_namespace?>_Generated_Model_<?=$this->_className?>.php');
+require_once('Generated/<?=$this->_className?>.php');
 <? endif; ?>
 
 class <?=$this->_namespace?>_Model_<?=$this->_className?> extends <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>

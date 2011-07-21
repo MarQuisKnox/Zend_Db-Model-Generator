@@ -64,8 +64,7 @@ abstract class <?=$this->_namespace?>_Generated_DbTable extends Zend_Db_Table_Ab
             $where = 'where '.$where;
         }
 
-        $query  = <<<SQL
-                select count(*) AS all_count from {$this->_name} $where SQL;
+        $query  = 'SELECT count(*) AS all_count FROM '.$this->_name.' '.$where;
         $row    = $this->getAdapter()->query($query)->fetch();
 
         return $row['all_count'];
