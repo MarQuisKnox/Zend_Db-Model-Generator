@@ -319,9 +319,8 @@ class MakeDbTable
      */
     function makeDbTableFile()
     {
-        $referenceMap   = '';
-        $dbTableFile    = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
-
+        $referenceMap       = '';
+        $dbTableFile        = $this->getLocation().DIRECTORY_SEPARATOR.'Generated'.DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
         $foreignKeysInfo    = $this->getForeignKeysInfo();
         $references         = array();
 
@@ -400,10 +399,9 @@ class MakeDbTable
         }
 
         /**
-         *
          * creates all class files
          *
-         * @return Boolean
+         * @return boolean
          */
         function doItAll()
         {
