@@ -21,6 +21,7 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      * $_dbTable - instance of <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className."\n"?>
      *
      * @var <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?>
+     <?="\n"?>
      */
     protected $_dbTable;
 
@@ -51,7 +52,6 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      *
      * @param new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      * @return array
-     *
      */
     public function toArray($cls)
     {
@@ -92,7 +92,6 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      *
      * @param <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?> $dbTable
      * @return <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
-     * 
      */
     public function setDbTable($dbTable)
     {
@@ -128,7 +127,6 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      *
      * @param <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      */
-     
     public function save(<?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls, $ignoreEmptyValuesOnUpdate = true)
     {
         if ($ignoreEmptyValuesOnUpdate) {

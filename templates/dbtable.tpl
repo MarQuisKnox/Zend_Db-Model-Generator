@@ -23,14 +23,14 @@ class <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?> exte
      *
      * @var string
      */
-	protected $_name='<?=$this->_tbname?>';
+	protected $_name = '<?=$this->_tbname?>';
 
     /**
      * $_id - this is the primary key name
      *
      * @var string
      */
-	protected $_id='<?=$this->_primaryKey['field']?>';
+	protected $_id = '<?=$this->_primaryKey['field']?>';
 
     <?=$referenceMap?>
 }
