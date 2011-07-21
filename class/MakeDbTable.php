@@ -237,8 +237,8 @@ class MakeDbTable
     public function parseDescribeTable()
     {
         $tbname = $this->getTableName();
-        $this->_pdo->query("SET NAMES UTF8");
-        $qry = $this->_pdo->query("describe $tbname");
+        $this->_pdo->query('SET NAMES UTF8');
+        $qry = $this->_pdo->query('describe '.$tbname);
 
 		if (!$qry) {
 		    throw new Exception("`describe $tbname` returned false!.");
@@ -248,17 +248,19 @@ class MakeDbTable
 		$primaryKey = array();
 
 		foreach ($res AS $row) {
-			if ($row['Key'] == 'PRI')
-				$primaryKey[]=array(
-                                        'field'=>$row['Field'],
-                                        'type'=>$row['Type'],
-                                        'phptype'=>$this->_convertMysqlTypeToPhp($row['Type']),
-                                        'capital'=>$this->_getCapital($row['Field']));
-                        $columns[]=array(
-                                'field'=>$row['Field'],
-                                'type'=>$row['Type'],
-                                'phptype'=>$this->_convertMysqlTypeToPhp($row['Type']),
-                                'capital'=>$this->_getCapital($row['Field']));
+			if ($row['Key'] == 'PRI') {
+				$primaryKey[] = array(  'field'     => $row['Field'],
+                                        'type'      => $row['Type'],
+                                        'phptype'   => $this->_convertMysqlTypeToPhp($row['Type']),
+                                        'capital'   => $this->_getCapital($row['Field'])
+                                );
+
+                $columns[] = array(     'field'     => $row['Field'],
+                                        'type'      => $row['Type'],
+                                        'phptype'   => $this->_convertMysqlTypeToPhp($row['Type']),
+                                        'capital'   => $this->_getCapital($row['Field'])
+                                );
+			}
 		}
 
         if (sizeof($primaryKey) == 0) {
@@ -267,8 +269,8 @@ class MakeDbTable
 			throw new Exception('found more then one primary key! probably a bug: '.join(', ', $primaryKey));
 		}
 
-        $this->_primaryKey=$primaryKey[0];
-		$this->_columns=$columns;
+        $this->_primaryKey  = $primaryKey[0];
+		$this->_columns     = $columns;
     }
 
 	/**
