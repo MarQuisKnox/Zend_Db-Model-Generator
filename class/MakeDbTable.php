@@ -249,13 +249,13 @@ class MakeDbTable
                                         'phptype'   => $this->_convertMysqlTypeToPhp($row['Type']),
                                         'capital'   => $this->_getCapital($row['Field'])
                                 );
-
-                $columns[] = array(     'field'     => $row['Field'],
-                                        'type'      => $row['Type'],
-                                        'phptype'   => $this->_convertMysqlTypeToPhp($row['Type']),
-                                        'capital'   => $this->_getCapital($row['Field'])
-                                );
 			}
+
+            $columns[] = array( 'field'     => $row['Field'],
+                                'type'      => $row['Type'],
+                                'phptype'   => $this->_convertMysqlTypeToPhp($row['Type']),
+                                'capital'   => $this->_getCapital($row['Field'])
+                            );
 		}
 
         if (sizeof($primaryKey) == 0) {

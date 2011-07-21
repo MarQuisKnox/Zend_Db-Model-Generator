@@ -23,9 +23,9 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> extends <?=$
      * mysql var type <?=$column['type']?>
      *
      * @var <?=$column['phptype']?>
+    <?="\n"?>
      */
     protected $_<?=$column['capital']?>;
-    
 <?endforeach;?>
 
     function __construct()
@@ -37,7 +37,6 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> extends <?=$
         ));
     }
 
-	
     <?foreach ($this->_columns AS $column):?>
 
     /**
