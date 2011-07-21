@@ -16,10 +16,9 @@ require_once('DbTable<?=DIRECTORY_SEPARATOR?><?=$this->_className?>.php');
 class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
 {
     /**
-     * $_dbTable - instance of <?=$this->_namespace?>_Model_DbTable_<?=$this->_className."\n"?>
+     * $_dbTable - instance of <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className."\n"?>
      *
-     * @var <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
-     
+     * @var <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?>
      */
     protected $_dbTable;
 
@@ -28,19 +27,19 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      *
      * @param string $field
      * @param mixed $value
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      */     
     public function findOneByField($field, $value, $cls)
     {
-            $table = $this->getDbTable();
-            $select = $table->select();
+        $table  = $this->getDbTable();
+        $select = $table->select();
+        $row    = $table->fetchRow($select->where("{$field} = ?", $value));
 
-            $row = $table->fetchRow($select->where("{$field} = ?", $value));
-            if (0 == count($row)) {
-                    return;
-            }
+        if (0 == count($row)) {
+            return;
+        }
 
-            $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
 	    return $cls;
     }
 
@@ -48,13 +47,13 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
     /**
      * returns an array, keys are the field names.
      *
-     * @param new <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      * @return array
      *
      */
-    public function toArray($cls) {
+    public function toArray($cls)
+    {
         $result = array(
-        
             <?foreach ($this->_columns as $column):?>'<?=$column['field']?>' => $cls->get<?=$column['capital']?>(),
             <?endforeach;?>
         
@@ -67,29 +66,30 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      *
      * @param string $field
      * @param mixed $value
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      * @return array
      */
     public function findByField($field, $value, $cls)
     {
-            $table = $this->getDbTable();
-            $select = $table->select();
-            $result = array();
+        $table  = $this->getDbTable();
+        $select = $table->select();
+        $result = array();
+        $rows   = $table->fetchAll($select->where("{$field} = ?", $value));
 
-            $rows = $table->fetchAll($select->where("{$field} = ?", $value));
-            foreach ($rows as $row) {
-                    $cls=new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>();
-                    $result[]=$cls;
-                    $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
-            }
-            return $result;
+        foreach ($rows AS $row) {
+            $cls        = new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>();
+            $result[]   = $cls;
+            $cls<?$count=count($this->_columns); foreach ($this->_columns AS $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+        }
+
+        return $result;
     }
     
     /**
      * sets the dbTable class
      *
-     * @param <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> $dbTable
-     * @return <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper
+     * @param <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?> $dbTable
+     * @return <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      * 
      */
     public function setDbTable($dbTable)
@@ -97,53 +97,56 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
         if (is_string($dbTable)) {
             $dbTable = new $dbTable();
         }
+
         if (!$dbTable instanceof Zend_Db_Table_Abstract) {
             throw new Exception('Invalid table data gateway provided');
         }
+
         $this->_dbTable = $dbTable;
+
         return $this;
     }
 
     /**
      * returns the dbTable class
      * 
-     * @return <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>
-     
+     * @return <?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?>
      */
     public function getDbTable()
     {
         if (null === $this->_dbTable) {
             $this->setDbTable('<?=$this->_namespace?>_Generated_Model_DbTable_<?=$this->_className?>');
         }
+
         return $this->_dbTable;
     }
 
     /**
      * saves current row
      *
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
-     *
+     * @param <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      */
      
-    public function save(<?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls,$ignoreEmptyValuesOnUpdate=true)
+    public function save(<?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls, $ignoreEmptyValuesOnUpdate = true)
     {
         if ($ignoreEmptyValuesOnUpdate) {
             $data = $cls->toArray();
-            foreach ($data as $key=>$value) {
-                if (is_null($value) or $value == '')
+            foreach ($data AS $key=>$value) {
+                if (is_null($value) OR $value == '') {
                     unset($data[$key]);
+                }
             }
         }
 
         if (null === ($id = $cls->get<?=$this->_primaryKey['capital']?>())) {
             unset($data['<?=$this->_primaryKey['field']?>']);
-            $id=$this->getDbTable()->insert($data);
+            $id = $this->getDbTable()->insert($data);
             $cls->set<?=$this->_primaryKey['capital']?>($id);
         } else {
             if ($ignoreEmptyValuesOnUpdate) {
              $data = $cls->toArray();
              foreach ($data as $key=>$value) {
-                if (is_null($value) or $value == '')
+                if (is_null($value) OR $value == '')
                     unset($data[$key]);
                 }
             }
@@ -156,9 +159,8 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      * finds row by primary key
      *
      * @param <?=$this->_primaryKey['phptype']?> $id
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $cls
+     * @param <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls
      */
-
     public function find($id, <?=$this->_namespace?>_Generated_Model_<?=$this->_className?> $cls)
     {
         $result = $this->getDbTable()->find($id);
@@ -168,7 +170,7 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
 
         $row = $result->current();
 
-        $cls<?$count=count($this->_columns); foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
+        $cls<?$count = count($this->_columns); foreach ($this->_columns AS $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)<?if ($count> 0) echo "\n\t\t"; endforeach;?>;
     }
 
     /**
@@ -180,9 +182,9 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
     {
         $resultSet = $this->getDbTable()->fetchAll();
         $entries   = array();
-        foreach ($resultSet as $row) {
+        foreach ($resultSet AS $row) {
             $entry = new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>();
-            $entry<?foreach ($this->_columns as $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
+            $entry<?foreach ($this->_columns AS $column): $count--?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
                   <?endforeach;?>
             ->setMapper($this);
             $entries[] = $entry;
@@ -199,19 +201,19 @@ class <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>Mapper
      * @param int $offset 
      *
      */
-    public function fetchList($where=null, $order=null, $count=null, $offset=null)
+    public function fetchList($where = null, $order = null, $count = null, $offset = null)
     {
-            $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
-            $entries   = array();
-            foreach ($resultSet as $row)
-            {
-                    $entry = new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>();
-                    $entry<?foreach ($this->_columns as $column):?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
-                          <? endforeach;?>
-->setMapper($this);
-                    $entries[] = $entry;
-            }
-            return $entries;
-    }
+        $resultSet = $this->getDbTable()->fetchAll($where, $order, $count, $offset);
+        $entries   = array();
 
+        foreach ($resultSet AS $row) {
+            $entry = new <?=$this->_namespace?>_Generated_Model_<?=$this->_className?>();
+            $entry<?foreach ($this->_columns AS $column):?>->set<?=$column['capital']?>($row-><?=$column['field']?>)
+            <? endforeach;?>->setMapper($this);
+
+            $entries[] = $entry;
+        }
+
+        return $entries;
+    }
 }

@@ -15,11 +15,9 @@ abstract class <?=$this->_namespace?>
     protected $_columnsList;
     
     /**
-     *
      * @param array $data
      * @return Default_Model_
      */
-
     public function setColumnsList($data)
     {
         $this->_columnsList=$data;
@@ -42,8 +40,10 @@ abstract class <?=$this->_namespace?>
      */
     public function columnName2Var($column)
     {
-        if (!isset($this->_columnsList[$column]))
+        if (!isset($this->_columnsList[$column])) {
             throw new Exception("column '$column' not found!");
+        }
+
         return $this->_columnsList[$column];
     }
 
@@ -53,9 +53,12 @@ abstract class <?=$this->_namespace?>
      */
     public function varName2Column($thevar)
     {
-        foreach ($this->_columnsList as $column=>$var)
-            if ($var == $thevar)
-                    return $column;
+        foreach ($this->_columnsList AS $column => $var) {
+            if ($var == $thevar) {
+                return $column;
+            }
+        }
+
         return null;
     }
 
@@ -68,26 +71,27 @@ abstract class <?=$this->_namespace?>
      * @param string $method
      * @param array  $args
      */
-
     public function __call($method, array $args)
     {
-        $matches = array();
-        $result=null;
+        $matches    = array();
+        $result     = null;
         if (preg_match('/^find(One)?By(\w+)?$/', $method, $matches)) {
-                $methods = get_class_methods($this);
-                $check = 'set'.$matches[2];
+            $methods    = get_class_methods($this);
+            $check      = 'set'.$matches[2];
 
-                $fieldName=$this->varName2Column($matches[2]);
+            $fieldName  = $this->varName2Column($matches[2]);
 
-                if (!in_array($check, $methods)) {
-                        throw new Exception("Invalid field {$matches[2]} requested for table");
-                }
-                if ($matches[1] != '') {
-                    $result=$this->getMapper()->findOneByField($fieldName, $args[0], $this);
-                } else {
-                    $result = $this->getMapper()->findByField($fieldName, $args[0], $this);
-                }
-                return $result;
+            if (!in_array($check, $methods)) {
+                throw new Exception("Invalid field {$matches[2]} requested for table");
+            }
+
+            if ($matches[1] != '') {
+                $result=$this->getMapper()->findOneByField($fieldName, $args[0], $this);
+            } else {
+                $result = $this->getMapper()->findByField($fieldName, $args[0], $this);
+            }
+
+            return $result;
         }
 
         throw new Exception("Unrecognized method '$method()'");
@@ -100,7 +104,6 @@ abstract class <?=$this->_namespace?>
      * @param Zend_Db_Select $query
      * @return Zend_Paginator
      */
-
     public function select2Paginator(Zend_Db_Select $select)
     {
         $adapter    = new Zend_Paginator_Adapter_DbSelect($select);
@@ -114,7 +117,6 @@ abstract class <?=$this->_namespace?>
      *
      * @return Zend_Paginator
      */
-
     public function fetchAll2Paginator()
     {
         return $this->select2Paginator($this->getMapper()->getDbTable()->select()->from($this->getMapper()->getDbTable()->getTableName()));
@@ -139,17 +141,17 @@ abstract class <?=$this->_namespace?>
      *
      * @param string $name
      * @param mixed $value
-     *
      */
     public function __set($name, $value)
     {
-       $name=$this->columnName2var($name);
+        $name    = $this->columnName2var($name);
+        $method  = 'set'.$name;
 
-                $method = 'set'.$name;
-                if (('mapper' == $name) || !method_exists($this, $method)) {
-                        throw new Exception("name:$name value:$value - Invalid property");
-                }
-                $this->$method($value);
+        if (('mapper' == $name) OR !method_exists($this, $method)) {
+            throw new Exception("name:$name value:$value - Invalid property");
+        }
+
+        $this->$method($value);
     }
 
     /**
@@ -164,11 +166,11 @@ abstract class <?=$this->_namespace?>
      */
     public function __get($name)
     {
-        $name = $this->columnName2Var($name);
-
+        $name   = $this->columnName2Var($name);
         $method = 'get'.$name;
-        if (('mapper' == $name) || !method_exists($this, $method)) {
-                throw new Exception("name:$name  - Invalid property");
+
+        if (('mapper' == $name) OR !method_exists($this, $method)) {
+            throw new Exception("name:$name  - Invalid property");
         }
 
         return $this->$method();
@@ -177,13 +179,15 @@ abstract class <?=$this->_namespace?>
     public function setOptions(array $options)
     {
         $methods = get_class_methods($this);
-        foreach ($options as $key => $value) {
-                $key = preg_replace_callback('/_(.)/', create_function('$matches','return ucfirst($matches[1]);'), $key);
-                $method = 'set' . ucfirst($key);
-                if (in_array($method, $methods)) {
-                        $this->$method($value);
-                }
+        foreach ($options AS $key => $value) {
+            $key    = preg_replace_callback('/_(.)/', create_function('$matches','return ucfirst($matches[1]);'), $key);
+            $method = 'set' . ucfirst($key);
+
+            if (in_array($method, $methods)) {
+                $this->$method($value);
+            }
         }
+
         return $this;
     }
 
@@ -206,32 +210,31 @@ abstract class <?=$this->_namespace?>
     {
         return $this->getMapper()->getDbTable()->countAllRows();
     }
-        /**
-         * returns the primary key column name
-         *
-         * @var string
-         */
-        public function getPrimaryKeyName()
-        {
-            return $this->getMapper()->getDbTable()->countAllRows();
-        }
 
+    /**
+     * returns the primary key column name
+     *
+     * @var string
+     */
+    public function getPrimaryKeyName()
+    {
+        return $this->getMapper()->getDbTable()->countAllRows();
+    }
 
-     public function countByQuery($where = '')
-     {
+    public function countByQuery($where = '')
+    {
         return $this->getMapper()->getDbTable()->countByQuery($where);
-     }
+    }
 
     /**
      * fetchs all rows
      * optionally filtered by where, order, count and offset
      * returns an array of the model class
-
      *
      * @return array
      *
      */
-    public function fetchList($where=null, $order=null, $count=null, $offset=null)
+    public function fetchList($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->getMapper()->fetchList($where, $order, $count, $offset);
     }
@@ -242,9 +245,8 @@ abstract class <?=$this->_namespace?>
      * returns Zend_Paginator
      *
      * @return Zend_Paginator
-     *
      */
-    public function fetchListToPaginator($where=null, $order=null, $count=null, $offset=null)
+    public function fetchListToPaginator($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->select2Paginator($this->getMapper()->getDbTable()->fetchList($where,$order,$count,$offset));
     }
@@ -255,7 +257,6 @@ abstract class <?=$this->_namespace?>
      * returns a 3d-array of the result
      *
      * @return array
-     *
      */
     public function fetchListToArray($where=null, $order=null, $count=null, $offset=null)
     {
@@ -277,10 +278,8 @@ abstract class <?=$this->_namespace?>
     /**
      * fetchs all row
      * returns an array of model class
-
      *
      * @return array
-     *
      */
     public function fetchAll()
     {
@@ -302,7 +301,6 @@ abstract class <?=$this->_namespace?>
      *
      * @param <?=$this->_namespace?>_Model_<?=$this->_className?>Mapper $mapper
      * @return <?=$this->_namespace?>_Model_<?=$this->_className?>
-
      */
     public function setMapper($mapper)
     {
@@ -314,7 +312,7 @@ abstract class <?=$this->_namespace?>
      * saves current loaded row
      *
      *  $ignoreEmptyValuesOnUpdate by default is true.
-     *      this option will not update columns with empty values.
+     *  this option will not update columns with empty values.
      *
      * @param boolean $ignoreEmptyValuesOnUpdate
      */

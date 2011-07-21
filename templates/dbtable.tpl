@@ -9,7 +9,6 @@
  */
 
 <? if ($this->_addRequire): ?>
-
 require_once('Zend<?=DIRECTORY_SEPARATOR?>Db<?=DIRECTORY_SEPARATOR?>Table<?=DIRECTORY_SEPARATOR?>Abstract.php');
 <? endif; ?>
 require_once('<?=$this->_namespace?>.php');
